@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 21, 2015 7:33:54 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.Trainbiodata" table="trainbiodata">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="trainNo" type="java.lang.Integer">
+            <column name="train_no" />
+        </property>
+        <property name="trainName" type="string">
+            <column name="train_name" />
+        </property>
+        <property name="originatingStation" type="string">
+            <column name="originating_station" />
+        </property>
+        <property name="destinationStation" type="string">
+            <column name="destination_station" />
+        </property>
+        <property name="daily" type="java.lang.Boolean">
+            <column name="daily" />
+        </property>
+    </class>
+</hibernate-mapping>

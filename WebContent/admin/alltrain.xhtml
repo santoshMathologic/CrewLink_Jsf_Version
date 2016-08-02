@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="adminTemplate.xhtml">
+
+
+
+
+	<ui:define name="body">
+	
+	<style type="text/css">
+	.searchText {
+    background-image: url(images/search.png);
+    background-position:  236px 3px;
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    border: 1px solid #33B5E5;
+    width: 250px;
+    
+}
+	
+	</style>
+	 
+	  <link rel="stylesheet" href="../admin/css/table-style.css"></link>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
+
+<style type="text/css">
+
+
+</style>
+
+    <div class="container" style="height: 1500px">
+            
+
+		<h:form id="TrainViewForm">
+		
+		
+		  
+                
+                
+                <div style="margin-left:-70px">
+                
+                <br/>
+                <br/>
+                <div style="margin-left:1037px">
+                <p:inputText value="#{adminTrainBioData.searchTrains}" styleClass="searchText ">
+                <p:ajax listener="#{adminTrainBioData.searchallTrains}" event="keyup"  update=":TrainViewForm:trainTable :TrainViewForm:ErrorMessages"/>
+                </p:inputText>
+                </div>
+		 <br/>
+		 
+	<p:outputLabel value="No Records Found" style="color:red"  id="ErrorMessages" rendered="#{adminTrainBioData.bMessages =='true'}"/>
+		 
+			
+ 
+					<h:dataTable value="#{adminTrainBioData.trainbiodataList}" 
+					var="rowVar" rows="100" id="trainTable" width="105%"
+					 styleClass="order-table tablecss"
+                headerClass="order-table-header"
+                rowClasses="order-table-odd-row,order-table-even-row" style="text-align:center" >
+					
+					
+	
+				
+
+
+					<h:column >
+						<f:facet name="header">Train No</f:facet>
+					       <a href="addCrew.xhtml?id=#{rowVar.trainNo}"  title="#{rowVar.trainName}" style="popover">#{rowVar.trainNo}</a>
+					       
+					      <!--  <h:commandLink action="addCrew.xhtml?id=#{rowVar.trainNo}" value="#{rowVar.trainNo}" /> -->
+					</h:column>
+				
+
+					<h:column>
+						<f:facet name="header">Train Name</f:facet>
+						<h:outputLabel value="#{rowVar.trainName}" />
+					</h:column>
+
+					<h:column >
+						<f:facet name="header">Originate Station</f:facet>
+						<h:outputLabel value="#{rowVar.originatingStation}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Destination</f:facet>
+						<h:outputLabel value="#{rowVar.destinationStation}" />
+					</h:column>
+
+
+				
+					
+
+					<h:column filterBy="#{rowVar.daily}" filterStyle="display: none;">
+					<f:facet name="header">Daily</f:facet>
+						<h:selectBooleanCheckbox value="#{rowVar.daily}" disabled="true"/>
+						 
+					</h:column>
+               
+				</h:dataTable>
+				
+			
+		
+   
+
+</div>
+
+		</h:form>
+
+
+
+
+</div>
+
+	</ui:define>
+
+</ui:composition>

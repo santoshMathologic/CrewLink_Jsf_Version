@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="template.xhtml">
+
+<ui:define name="body">
+
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet"></link>
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+ 
+  <link rel="stylesheet" href="css/table-style.css"></link>
+  
+  
+  <style type="text/css">
+  .custom_modal
+  {
+    display: block;
+    position: absolute;
+    left: 60%;
+    height: 88%;
+    width: 28%;
+    overflow-y:auto;
+    overflow-x:auto;
+    border-radius: 0px;
+     width:50%;
+    margin:0 auto;
+    
+  }
+  
+  .tablecss
+  {
+  font-weight: normal;
+  }
+  </style>
+  
+  
+  
+  
+
+		<h:form id="viewform" prependId="false">
+	    <p:growl id="viewGrowl" />
+			
+	   <div class="container" style="height:1500px;margin-left:-100px">
+	   
+	   
+	  
+			<h:dataTable  id="userTable" styleClass="order-table tablecss"
+                headerClass="order-table-header"
+                rowClasses="order-table-odd-row,order-table-even-row" width="115%" style="font-size:12px"  rows="40" value="#{adminviewusers.customerList}"
+             var="rowVar" >
+      
+ 
+      
+ 
+       
+               <h:column>
+               <f:facet name="header">
+                 <h:commandLink action="#{adminviewusers.sortByFirstName}">
+                 
+               FirstName
+               <h:graphicImage width="15" height="15" value="/masteradmin/images/sort_down.png"/>
+               </h:commandLink>
+             <br/>
+               <h:inputText value="#{adminviewusers.strSearch}" size="6" />
+               
+               </f:facet>
+                     <h:outputLabel value="#{rowVar.username}" />
+               </h:column>
+               
+               
+               <h:column>
+               <f:facet name="header">Username</f:facet>
+                     <h:outputLabel value="#{rowVar.username}" />
+               </h:column>
+               
+               
+               <h:column>
+                        <f:facet name="header">Password</f:facet>
+                        <h:outputLabel value="#{rowVar.password}" />
+                </h:column>
+                
+                <h:column>
+                        <f:facet name="header">City</f:facet>
+                        <h:outputLabel value="#{rowVar.city}" />
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">States</f:facet>
+                        <h:outputLabel value="#{rowVar.states}" />
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">Dob</f:facet>
+                        <h:outputLabel value="#{rowVar.dob}" />
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">UserRoles</f:facet>
+                        <h:outputLabel value="#{rowVar.userRole}"/>
+                    </h:column>
+                    <h:column width="30%">
+                        <f:facet name="header">Address</f:facet>
+                           
+                             <h:outputLabel value="#{rowVar.address}"/>
+                           
+                    </h:column>
+                
+                     <h:column width="12%">
+                        <f:facet name="header">Zones</f:facet>
+                        <h:outputLabel value="#{rowVar.zones}" />
+                    </h:column>
+                    
+                    <h:column>
+                         <f:facet name="header">option</f:facet>
+                    <h:commandLink action="#{adminviewusers.deleteusers}" update=":viewform">
+                    <f:setPropertyActionListener target="#{adminviewusers.deletedId}" value="#{rowVar.id}" />
+                     <f:ajax execute="@this" render="@none" />
+                    <h:graphicImage value="/masteradmin/images/deleteicon.png" width="10" height="10" />
+                    </h:commandLink>
+                   
+                    &nbsp;&nbsp;
+                    
+                    <p:commandLink actionListener="#{adminviewusers.update}"  oncomplete="PF('editDlg').show();" update=":updateDialog">
+                     <f:attribute name="passId" value="#{rowVar.id}" />
+                     <f:ajax execute="@this" render="@none" />
+                    <h:graphicImage value="/masteradmin/images/pen.png" width="10" height="10" />
+                    </p:commandLink>
+                    </h:column>
+                    
+                <!--     <h:column headerText="option" width="10%">
+                      <f:facet name="header">option</f:facet>
+                  <p:selectBooleanButton id="value2" value="#{adminviewusers.isDisable}" onLabel="No" offLabel="Yes">
+                              <p:ajax update=":viewform:viewGrowl"  listener="#{adminviewusers.accountDisabled}"/>
+                              <f:param name="QUERYPARAM" value="#{rowVar.id}" />
+                   </p:selectBooleanButton>  
+                  </h:column>
+                   -->
+               <!--    
+                  <h:column>
+                 <p:selectBooleanCheckbox value="#{adminviewusers.isDisable}">
+                    <p:ajax  listener="#{adminviewusers.account}"  update=":viewform:viewGrowl"  />
+                    <f:param name="QUERYPARAM" value="#{rowVar.id}" />
+                </p:selectBooleanCheckbox>
+                  </h:column> -->
+                  
+      
+  </h:dataTable>
+      
+      <h:outputText value="#{adminviewusers.strDisplayMessages}" rendered="#{adminviewusers.messageBoolean}" />
+
+  
+      <!--   <h:commandLink value="prev" action="#{repeatPaginator.prev}"  styleClass="btn btn-success" >
+          <span class="glyphicon glyphicon-step-backward"></span>
+        </h:commandLink>
+        <h:outputText value="#{repeatPaginator.pageIndex} / #{repeatPaginator.pages}"/>
+        <h:commandLink value="next" action="#{repeatPaginator.next}" styleClass="btn btn-warning">
+          <span class="glyphicon glyphicon-step-forward"></span>
+        </h:commandLink>
+        <h:inputHidden value="#{repeatPaginator.pageIndex}"/>
+        
+        
+        
+        
+         -->
+         
+         
+        
+       <div style="margin-left:450px">
+       
+       
+       <h:commandLink value="search" action="#{adminviewusers.searchUsers}" styleClass="btn btn-primary"/>
+       &nbsp;
+       &nbsp;
+       <h:commandLink value="refresh" action="viewusers.xhtml?faces-redirect=true" styleClass="btn btn-success"/>
+        
+       
+       
+       <div align="right">
+       
+      <p:commandLink value="Prev" action="#{adminviewusers.prev}" styleClass="btn btn-warning" update="viewform">
+            <span class="glyphicon glyphicon-step-backward"></span>
+            <!-- <f:ajax execute="@this" render="@none" /> -->
+        </p:commandLink>
+        
+        <h:outputText value="#{adminviewusers.pageIndex} / #{adminviewusers.pages}"/>
+        
+        &nbsp;
+          <p:commandLink value="next" action="#{adminviewusers.next}" styleClass="btn btn-warning" update="viewform">
+             <span class="glyphicon glyphicon-step-forward"></span>
+             <!-- <f:ajax execute="@this" render="@none" /> -->
+        </p:commandLink> 
+         <h:inputHidden value="#{adminviewusers.pageIndex}"/>
+        </div>
+        </div>
+    
+        
+    </div>
+
+		</h:form>
+
+
+
+
+  <p:dialog widgetVar="editDlg" appendToBody="true" style="font-weight: normal;" modal="true" resizable="false" width="400" height="420" id="updateDialog" draggable="false">
+
+<h:form id="updateForm">
+<h:panelGrid columns="2" cellpadding="10" cellspacing="10">
+
+
+<h:outputLabel value="FirstName"/>
+<h:inputText value="#{adminviewusers.cst.firstname}" >
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="LastName"/>
+<h:inputText value="#{adminviewusers.cst.lastname}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="UserName"/>
+<h:inputText value="#{adminviewusers.cst.username}" >
+<f:ajax event="change"/>
+</h:inputText>
+
+
+<p:outputLabel value="Password"/>
+<h:inputText value="#{adminviewusers.cst.password}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="City"/>
+<h:inputText value="#{adminviewusers.cst.city}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="States"/>
+<h:inputText value="#{adminviewusers.cst.states}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="Dob"/>
+<h:inputText value="#{adminviewusers.cst.dob}">
+<f:ajax event="change"/>
+</h:inputText>
+
+
+<p:outputLabel value="UserRole"/>
+<h:inputText value="#{adminviewusers.cst.userRole}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="Address"/>
+<h:inputTextarea value="#{adminviewusers.cst.address}" rows="5" cols="20" style="resize:none">
+<f:ajax event="change"/>
+</h:inputTextarea>
+
+
+
+<p:outputLabel value="Zone"/>
+
+<h:inputText value="#{adminviewusers.cst.zones}">
+<f:ajax event="change"/>
+</h:inputText>
+
+
+<p:commandButton value="Save" actionListener="#{adminviewusers.saveUpdate}" update=":viewform" >
+
+</p:commandButton>
+<p:commandButton value="Reset"/>
+
+
+</h:panelGrid>
+</h:form>
+
+
+</p:dialog>
+
+
+
+
+
+
+
+	</ui:define>
+
+</ui:composition>

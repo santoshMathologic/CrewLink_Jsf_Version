@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 2, 2015 11:28:24 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.RoundtripSuggestion2" table="roundtrip_suggestion2">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="trainno1" type="string">
+            <column name="trainno1" length="12" />
+        </property>
+        <property name="trainno2" type="string">
+            <column name="trainno2" length="12" />
+        </property>
+        <property name="accessRunningroomRest" type="string">
+            <column name="access_runningroom_rest" length="6" />
+        </property>
+    </class>
+</hibernate-mapping>

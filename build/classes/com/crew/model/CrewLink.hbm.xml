@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 15, 2015 10:36:24 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.CrewLink" table="crew_link">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="customer" class="com.crew.model.Customer" fetch="select">
+            <column name="customer_table_fk" />
+        </many-to-one>
+        <property name="trainNo" type="string">
+            <column name="train_no" length="200" />
+        </property>
+        <property name="fromStation" type="string">
+            <column name="from_Station" length="10" />
+        </property>
+        <property name="toStation" type="string">
+            <column name="to_Station" length="10" />
+        </property>
+        <property name="departure" type="timestamp">
+            <column name="departure" length="0" />
+        </property>
+        <property name="arrivalTime" type="timestamp">
+            <column name="Arrival_Time" length="0" />
+        </property>
+        <property name="outStationRest" type="string">
+            <column name="out_Station_Rest" length="11" />
+        </property>
+        <property name="headQuarterRest" type="string">
+            <column name="HeadQuarter_Rest" length="11" />
+        </property>
+        <property name="periodicRest" type="java.lang.Integer">
+            <column name="Periodic_Rest" />
+        </property>
+        <property name="noOfDays" type="java.lang.Integer">
+            <column name="No_Of_Days" />
+        </property>
+        <property name="signoff" type="timestamp">
+            <column name="signoff" length="0" />
+        </property>
+        <property name="transactionNoCrewLink" type="java.lang.Long">
+            <column name="Transaction_No_CrewLink" />
+        </property>
+        <property name="availability" type="string">
+            <column name="availability" length="10" />
+        </property>
+        <property name="periodicRestAdded" type="java.lang.Boolean">
+            <column name="periodic_rest_added" />
+        </property>
+        <property name="crewBase" type="string">
+            <column name="crew_base" length="11" />
+        </property>
+        <property name="crewType" type="string">
+            <column name="crew_type" length="11" />
+        </property>
+        <property name="linkName" type="string">
+            <column name="link_name" length="11" />
+        </property>
+        <property name="sequenceId" type="string">
+            <column name="sequence_id" length="20" />
+        </property>
+        <property name="distance" type="java.lang.Long">
+            <column name="distance" />
+        </property>
+        <property name="workingHour" type="string">
+            <column name="working_hour" length="12" />
+        </property>
+        <property name="drivingSectionId" type="java.lang.Long">
+            <column name="driving_section_id" />
+        </property>
+    </class>
+</hibernate-mapping>

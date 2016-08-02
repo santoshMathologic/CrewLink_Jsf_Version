@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui" 
+    template="adminTemplate.xhtml">
+
+<ui:define name="body">
+
+        <div class="container">
+            <div class="content" style="height: 1024px">
+                <h:form id="drivingSectionform">
+                    <p:growl id="viewGrowl" />
+                        <h:form id="drivingSectionform">
+                            <p:commandButton value="Search"
+                        action="#{oneDrivingbean.multipleSearch}"  update="drivingSectionform:tableId" />
+                    <p:commandButton value="Refresh"
+                        action="drivingduty.xhtml?faces-redirect=true" />
+                    
+                        <p:dataTable value="#{oneDrivingbean.crewChangeDrivingsectionList}" 
+                                 id="tableId" 
+                                 var="rowvar" 
+                                 rows="12" 
+                                 paginator="true" 
+                                 paginatorPosition="top" 
+                                 selection="#{oneDrivingbean.selectedCrewChangeDrivingSection}" 
+                                 rowKey="#{rowvar.id}"
+                                 >
+                    
+                    <f:facet name="header">
+                    Driving Section 
+                    </f:facet>
+                    <p:column selectionMode="multiple" width="3%"/>
+                    <p:column headerText="TrainNo">
+                    #{rowvar.trainNo}
+                    </p:column>
+                    <p:column width="10%">
+                    
+                    <f:facet name="header"> From
+                     <p:selectOneMenu value="#{oneDrivingbean.selectedFrom}"
+                                    id="from" effect="fade" var="selectvar" style="width:100px"
+                                    filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{oneDrivingbean.selectlistfrom_station}"
+                                        var="fromvar" itemLabel="#{fromvar.label}"
+                                        itemValue="#{fromvar.value}" />
+
+                                    <!-- <p:ajax event="change" update="@this" /> -->
+                                </p:selectOneMenu>
+
+
+                                <p:selectOneMenu value="#{oneDrivingbean.selectedFrom1}"
+                                    effect="fade" var="selectvar" style="width:100px" filter="true"
+                                    filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{oneDrivingbean.selectlistfrom_station}"
+                                        var="tovar" itemLabel="#{tovar.label}"
+                                        itemValue="#{tovar.value}" />
+                                </p:selectOneMenu>
+                    
+                    </f:facet>
+                    #{rowvar.fromStation}
+                    </p:column>
+                    <p:column headerText="To" width="10%">
+                    
+                    <f:facet name="header">
+                            To
+                                 <p:selectOneMenu value="#{oneDrivingbean.selectedTo}"
+                                    effect="fade" var="selectvar" style="width:100px" filter="true"
+                                    filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{oneDrivingbean.to_stationlist}" var="car"
+                                        itemLabel="#{car.label}" itemValue="#{car.value}" />
+                                </p:selectOneMenu>
+                                <p:selectOneMenu value="#{oneDrivingbean.selectedTo1}"
+                                    effect="fade" var="selectvar" style="width:100px" filter="true"
+                                    filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{oneDrivingbean.to_stationlist}" var="car"
+                                        itemLabel="#{car.label}" itemValue="#{car.value}" />
+                                </p:selectOneMenu>
+                        </f:facet>
+                    #{rowvar.toStation}
+                    </p:column>
+                    <p:column headerText="departure">
+                    #{rowvar.departure.toString().substring(10,16)}
+                    </p:column>
+                    <p:column headerText="Arrival">
+                    #{rowvar.arrival.toString().substring(10,16)}
+                    </p:column>
+                    <p:column headerText="CrewBase" filterBy="#{rowvar.crewBase}" filterFunction="#{drivingbean.filterByCrewBaseAndType}"  filterStyle="width:70%" width="6%">
+                    #{rowvar.crewBase}
+                    </p:column>
+                    <p:column headerText="CrewType" filterBy="#{rowvar.crewType}" filterFunction="#{drivingbean.filterByCrewBaseAndType}" filterStyle="width:70%" width="6%">
+                    #{rowvar.crewType}
+                    </p:column>
+                    <p:column headerText="KM">
+                    #{rowvar.kilometer}
+                    </p:column>
+                   <p:column headerText="Hours">
+                    #{rowvar.hour}
+                    </p:column>
+                    <p:column headerText="Status">
+<p:outputLabel value="#{rowvar.status=='true'? 'Duty Created' : 'Duty Not created'}" style="color: green;font-weight:bold"/>
+</p:column>
+                    
+                    </p:dataTable>
+                   <p:commandButton value="Generate"  action="#{oneDrivingbean.generateOneDrivingSection_and_OneDrivingDuty}"  oncomplete="OneDrivingSection_and_OneDrivingDuty.xhtml?faces-redirect=true" />
+                   <p:commandButton  value="Back" action="drivingduty.xhtml?faces-redirect=true"/> 
+
+                
+
+                    </h:form>   
+                  
+                  
+                    
+                    
+                    </h:form>
+                    </div>
+                    </div>
+                    </ui:define>
+                    </ui:composition>
+
+	

@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="adminTemplate.xhtml">
+
+	<ui:define name="body">
+	
+	<style type="text/css">
+	.tablestyle {
+    font-size: 13px !important;
+    font-family: times new roman;
+    color:black;
+    
+}
+	.created
+	{
+	color: green;
+	font-weight: bold;
+	}
+	.notcreated
+	{
+	color: red;
+	font-weight: bold;
+	}
+	
+	</style>
+	
+	
+		<div class="container">
+			<div class="content" style="height: 1024px">
+				<h:form id="viewform4">
+					<p:growl id="viewGrowl" />
+					
+						  <h1><u>Create RoundTrip to CrewLink</u></h1>
+						  
+						  
+				
+                  <p:dataTable id="driDutyId"
+					value="#{rtripCrewlink.listRoundTrip}" var="rowvar"
+					paginatorAlwaysVisible="false" rows="20" paginator="true"
+					paginatorPosition="top" 
+					style="text-align:center;width:105%">
+            
+                     <p:column headerText="Sl.No" width="5%">
+                        #{rowvar.id}
+                    </p:column>
+            
+					<p:column headerText="Train No" style="width:150px;" >
+						#{rowvar.trainNo}
+					</p:column>
+
+	
+						<p:column headerText="From" width="8%">
+                
+                    <f:facet name="header">
+                    From
+                    </f:facet>
+                            #{rowvar.fromStation}
+</p:column>
+
+
+					<p:column  headerText="To" width="8%">
+                    
+                    <f:facet name="header">
+                  
+                    </f:facet>
+                    
+#{rowvar.toStation}
+</p:column>
+
+
+						<p:column headerText="Departure">
+							<p:outputLabel value="#{rowvar.departuretime.toString().subSequence(10,16)}"></p:outputLabel>
+						</p:column>
+						
+						<p:column headerText="Arrival">
+							<p:outputLabel value="#{rowvar.arrivaltime.toString().substring(10,16)}"></p:outputLabel>
+						</p:column>
+						<p:column headerText="SignOn" width="8%">
+							<p:outputLabel value="#{rowvar.signonTime.toString().substring(10,16)}"/>
+						</p:column>
+						
+						
+						
+						<p:column headerText="AvailablityTime">
+							<p:outputLabel value="#{rowvar.availabilityAtHq}"></p:outputLabel>
+						</p:column>
+
+			              <p:column filterBy="#{rowvar.crewBase}"  filterFunction="#{rtripCrewlink.filterByName}" headerText="CrewBase" filterStyle="width:25px;border-radius:0px">
+						<h:outputText value="#{rowvar.crewBase}" />
+					</p:column>
+
+					<p:column filterBy="#{rowvar.crewType}" headerText="CrewType"
+						filterStyle="width:25px;border-radius:0px" filterFunction="#{rtripCrewlink.filterByName}">
+						<h:outputText value="#{rowvar.crewType}" />
+					</p:column>
+					
+					
+					
+			<p:column headerText="Number of Hours">
+							<p:outputLabel value="#{rowvar.noOfDays}"></p:outputLabel>
+						</p:column>
+<!-- 						<p:column headerText="AvailablityTime">
+							<p:outputLabel value="#{rowvar.availability}"></p:outputLabel>
+						</p:column>
+ -->
+						<p:column headerText="Distance">
+#{rowvar.distance}
+</p:column>
+
+					
+<!-- <p:column headerText="Status" width="10%">
+<f:facet name="header">
+Status
+<p:selectOneMenu value="#{rtripCrewlink.statusBoolean}" style="width:100px">
+<f:selectItem itemValue="" itemLabel=""/>
+<f:selectItem itemValue="All" itemLabel="all"/>
+<f:selectItem itemValue="CrewLinkcreated" itemLabel="Crew Link created"/>
+<f:selectItem itemValue="CrewLinkNotcreated" itemLabel="Crew Link Not created"/>
+
+<p:ajax listener="#{rtripCrewlink.statusSearch}" update=":viewform4:driDutyId "/>
+</p:selectOneMenu>
+</f:facet>
+<p:outputLabel value="#{rowvar.status=='true'? 'Crew Link created' : 'Crew Link Not created'}" styleClass="#{rowvar.status=='true'? 'created' : 'notcreated'}"/>
+</p:column> -->
+
+<!-- <p:column headerText="Total Duty Hours">
+#{rowvar.totalDutyHours}
+</p:column>
+			 -->		<!--  <p:column headerText="Option" style="width:70px;" >
+					<p:commandButton actionListener="#{rtripCrewlink.viewRoundTrip(rowvar)}" update=":viewform4 :roundTripId" oncomplete="PF('rrInfo').show()" icon="ui-icon-search" title="View">
+                			<f:setPropertyActionListener value="#{rowvar}" target="#{rtripCrewlink.selectedRoundTrip}" />
+           		     </p:commandButton>
+           		 
+					<p:commandButton actionListener="#{rtripCrewlink.deleteFromRoundTrip(rowvar)}" update="driDutyId" onclick="if (!confirm('Are you sure?')) return false"
+					process="@this" icon="ui-icon-trash" title="Delete">
+           		     </p:commandButton>            
+                        </p:column> -->
+
+ 					<p:column headerText="sequence">
+                    <p:inputText value="#{rtripCrewlink.sequenceNumbers}" size="3" style="width:25px">
+                	     <p:ajax listener="#{rtripCrewlink.saveId(rowvar.id)}"/>
+                    </p:inputText> 
+                    </p:column>
+                   <p:column headerText="PR" id="msg">
+					        <p:selectBooleanCheckbox value="#{rtripCrewlink.prCheckbox}">
+					            <p:ajax listener="#{rtripCrewlink.selectedCheckBox(rowvar)}" /> 
+					        </p:selectBooleanCheckbox>
+                    </p:column>
+
+				</p:dataTable><br/>
+				
+				<p:commandButton value="Create Crew Links" action="#{rtripCrewlink.createLink}" update="viewform4 driDutyId">
+				<div align="center"><p:confirm header="Confirmation"  message="Crew Link has been Created Successfully?" icon="ui-icon-alert"  /></div> 
+				</p:commandButton>
+				
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Close" type="button" styleClass="ui-confirmdialog-yes" />
+                               
+                </p:confirmDialog>
+				
+			
+				
+			    </h:form>
+			    
+			  
+			    
+			   
+			    
+			  <!--   <p:dialog  widgetVar="rrInfo" header="Round Trip Information" modal="true" resizable="false">
+			    	
+			    		<p:dataTable  id="roundTripId"
+					value="#{rtripCrewlink.dutyDrivingList}" var="rowvar"
+					paginatorAlwaysVisible="false" rows="20" paginator="true"
+					paginatorPosition="top" 
+					style="text-align:center;">
+			    		
+			    		
+			    		<p:column headerText="Train No" style="width:150px;" >
+#{rowvar.trainNo}
+</p:column>
+
+	
+						<p:column filterBy="#{rowvar.fromStation}" headerText="From" >
+                            <h:outputText value="#{rowvar.fromStation}" />
+                         </p:column>
+
+
+						<p:column filterBy="#{rowvar.toStation}" headerText="To">
+                            <h:outputText value="#{rowvar.toStation}" />
+                         </p:column>
+
+
+
+			<p:column headerText="Departure">
+#{rowvar.departure.toString().substring(10,16)}
+</p:column>
+						<p:column headerText="Arrival">
+#{rowvar.arrival.toString().substring(10,16)}
+</p:column>
+			              <p:column filterBy="#{rowvar.crewBase}"  headerText="CrewBase" filterStyleClass="filtersheets">
+						<h:outputText value="#{rowvar.crewBase}" />
+					</p:column>
+
+					<p:column filterBy="#{rowvar.crewType}" headerText="CrewType"
+						filterStyleClass="filtersheets">
+						<h:outputText value="#{rowvar.crewType}" />
+					</p:column>
+			
+						<p:column headerText="SignOn">
+							<p:outputLabel value="#{rowvar.signonTime.toString().substring(10,16)}"></p:outputLabel>
+						</p:column>
+
+						<p:column headerText="SignOff">
+							<p:outputLabel value="#{rowvar.signoffTime.toString().substring(10,16)}"></p:outputLabel>
+						</p:column>
+
+
+						<p:column headerText="AvailablityTime">
+							<p:outputLabel value="#{rowvar.availability}"></p:outputLabel>
+						</p:column>
+
+
+						<p:column headerText="Distance">
+#{rowvar.km}
+</p:column>
+
+
+			    		
+			    		
+			    		
+			    		
+			    		</p:dataTable>
+			    	
+			    </p:dialog> -->
+			    
+			    
+			     
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 6, 2015 12:59:58 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.Onedrivingsection" table="onedrivingsection">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="trainNo" type="string">
+            <column name="Train_No" length="30" />
+        </property>
+        <property name="fromStation" type="string">
+            <column name="From_Station" length="5" />
+        </property>
+        <property name="toStation" type="string">
+            <column name="To_Station" length="5" />
+        </property>
+        <property name="departureTime" type="timestamp">
+            <column name="departure_Time" length="0" />
+        </property>
+        <property name="arrivalTime" type="timestamp">
+            <column name="arrival_Time" length="0" />
+        </property>
+        <property name="signOn" type="timestamp">
+            <column name="sign_On" length="0" />
+        </property>
+        <property name="signOff" type="timestamp">
+            <column name="sign_Off" length="0" />
+        </property>
+        <property name="availabilityTime" type="java.lang.Integer">
+            <column name="availability_Time" />
+        </property>
+        <property name="distance" type="java.lang.Long">
+            <column name="distance" />
+        </property>
+        <property name="dutyHour" type="timestamp">
+            <column name="duty_hour" length="0" />
+        </property>
+    </class>
+</hibernate-mapping>

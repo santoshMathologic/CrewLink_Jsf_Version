@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="template.xhtml"
+	  xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:define name="body">
+   <div class="container" style="height:1500px;margin-left:-50px">
+<script type="text/javascript">
+      function countChar(val) {
+        var len = val.value.length;
+        if (len >= 200) {
+          val.value = val.value.substring(0, 200);
+        } else {
+          $('#charNum').text(200 - len);
+        }
+      };
+    </script>
+
+		<h:form id="createform">
+	    <p:growl autoUpdate="true" id="viewGrowl" />
+			<br/>
+		
+		
+		<p:fieldset style="border:1px solid #000000">
+			<h:panelGrid columns="2" cellpadding="5" cellspacing="5">
+			
+			
+			<h:outputLabel value="FirstName" />
+            <h:inputText value="#{createuserbean.customer.firstname}"/>
+            
+            <h:outputLabel value="MiddleName" />
+            <h:inputText value="#{createuserbean.customer.middlename}"/>
+			
+			<h:outputLabel value="lastName" />
+            <h:inputText value="#{createuserbean.customer.lastname}"/>
+			
+			<h:outputLabel value="UserName" />
+			<h:inputText value="#{createuserbean.customer.username}"/>
+			
+			<h:outputLabel value="Password" />
+            <h:inputSecret value="#{createuserbean.customer.password}"/>
+            
+			
+			<h:outputLabel value="Email" />
+            <h:inputText value="#{createuserbean.customer.emailAddress}"/>
+            
+            
+            <h:outputLabel value="Date-of-Birth" />
+            <p:calendar id="mask" value="#{createuserbean.selectedDate}" pattern="MM/dd/yyyy" mask="true" />
+  
+            <h:outputLabel value="Roles" />
+            
+          <h:selectOneMenu id="console" value="#{createuserbean.customer.userRole}" style="width:150px">
+            <f:selectItem itemLabel="Select Role" itemValue="" />
+            <f:selectItem itemLabel="customer" itemValue="customer" />
+            <f:selectItem itemLabel="admin" itemValue="admin" />
+            <f:selectItem itemLabel="masteradmin" itemValue="masteradmin" />
+        </h:selectOneMenu>
+            
+ 
+			
+			
+			<h:outputLabel value="address" />
+			<h:inputTextarea rows="5" a:maxlength="200" cols="40" value="#{createuserbean.customer.address}" style="resize:none" onkeyup="countChar(this)">
+			
+			</h:inputTextarea>
+			<!--  <div id="charNum"/> character left 
+			 -->
+	  <h:outputLabel value="Zone" />
+	  <h:selectOneMenu value="#{createuserbean.customer.zones}" id="zones" style="width:150px;">
+      <f:selectItem  itemLabel="--select Zones-------" itemValue=""/>
+      <f:selectItems value="#{createuserbean.listofZones.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+      </h:selectOneMenu>
+      
+      <h:outputLabel value="City" />
+      <h:selectOneMenu value="#{createuserbean.customer.city}" id="city" style="width:150px;">
+      <f:selectItem  itemLabel="--select city-------" itemValue=""/>
+      <f:selectItems value="#{createuserbean.citylist.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+      </h:selectOneMenu>
+      
+       <h:outputLabel value="States" />
+      <h:selectOneMenu value="#{createuserbean.customer.states}" id="states" style="width:150px;">
+      <f:selectItem  itemLabel="--select states-------" itemValue=""/>
+      <f:selectItems value="#{createuserbean.stateslist.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+      </h:selectOneMenu>
+      
+      </h:panelGrid>
+      
+      <h:panelGrid columns="2" cellpadding="5" cellspacing="5">
+      <p:commandButton value="Add" action="#{createuserbean.addUsers}" update="createform" />
+      <p:commandButton value="Reset" type="reset" ></p:commandButton>
+      
+      </h:panelGrid>
+      
+      </p:fieldset>
+		    	
+		</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

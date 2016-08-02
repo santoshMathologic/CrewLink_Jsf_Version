@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="adminTemplate.xhtml">
+
+	<ui:define name="body">
+
+		<style>
+.ui-widget, .ui-widget .ui-widget {
+	font-size: 12px !important;
+	font-family: times new roman;
+}
+</style>
+
+
+		<div class="container">
+			<div class="content" style="height: 1024px">
+
+				<h:form id="viewOptiRes">
+					<p:growl autoUpdate="true" id="optiGrowl" />
+					
+					
+				
+					<h1>Obtaining Optimized Result</h1>
+					
+					<h:panelGrid columns="2">
+
+						<h:outputLabel value="Enter Source Station Code:" />
+						<h:inputText value="#{drivingbean.searchStationCode}" />
+
+						<h:outputLabel value="Enter Destination Station Code:" />
+						<h:inputText value="#{drivingbean.toStation}" />
+
+
+					</h:panelGrid>
+					<p:commandButton value="Submit" action="#{drivingbean.roundTripImpl}" update=":viewOptiRes:tblOptimizedResult :viewOptiRes:tblOptimizeSecond"/>
+
+
+			<br/>
+				
+				<div style="float:left;margin-left:-90px">
+				
+					<p:dataTable id="tblOptimizedResult" value="#{drivingbean.fromAndToStationList}" var="optimizedVar" style="text-align:center;width:65%;float:left;padding:20px">
+					
+						
+						
+						
+						<p:column headerText="From Train No">
+							<p:outputLabel value="#{optimizedVar.trainNo}" >
+							</p:outputLabel>
+						</p:column>
+						
+						<p:column headerText="From Station">
+							<p:outputLabel value="#{optimizedVar.fromStation}" />
+						</p:column>
+					
+						<p:column headerText="To Station">
+							<p:outputLabel value="#{optimizedVar.toStation}" />
+						</p:column>
+						
+						
+						<p:column headerText="Departure">
+							<p:outputLabel value="#{optimizedVar.departure.toString().substring(10,16)}" />
+						</p:column>
+						
+						<p:column headerText="Arrival">
+							<p:outputLabel value="#{optimizedVar.arrival.toString().substring(10,16)}" />
+						</p:column>
+						
+						<p:column headerText="Availability">
+							<p:outputLabel value="#{optimizedVar.availability.toString().substring(10,16)}" />
+						</p:column>
+						
+						<p:column headerText="Distance">
+							<p:outputLabel value="#{optimizedVar.km}" />
+						</p:column>
+						
+						<!-- <p:column headerText="Sign Off Time">
+							<p:outputLabel value="#{optimizedVar.signoffTime.toString().substring(10,16)}" />
+						</p:column>
+						
+						<p:column headerText="Sign On Time">
+							<p:outputLabel value="#{optimizedVar.signonTime.toString().substring(10,16)}" />
+						</p:column> -->
+						
+						
+					</p:dataTable>
+			</div>		<br/><br/><br/><br/><br/>
+				<!-- 	<h3>Enter Details To Select Trains</h3>
+					<p:panelGrid columns="2">
+						
+					
+						<h:outputLabel value="Enter the Source Station" />
+						<h:inputText value="#{optimizedbean.source}" />
+						
+						
+						<h:outputLabel value="Enter the Destination Station" />
+						<h:inputText value="#{optimizedbean.destination}" />
+						
+						<h:outputLabel value="Enter the Number of Trains From Source" />
+						<h:inputText value="#{optimizedbean.numberOfTrains}" />
+						
+						<p:commandButton value="Submit" action="#{optimizedbean.selectTrains()}" update="viewOptRe"/>
+					</p:panelGrid>
+					<br/><br/>
+					<h3>Result of Opted Trains Details</h3>
+					<p:dataTable id="viewOptRe" value="#{optimizedbean.listFinalTable}" var="opti"> 
+					
+						<p:column headerText="From Station">
+							<p:outputLabel value="#{opti.startingStation}" />
+						</p:column>
+						
+						
+						<p:column headerText="From Train No">
+							<p:outputLabel value="#{opti.trainno1}" >
+							</p:outputLabel>
+						</p:column>
+						
+						
+						<p:column headerText="To Station">
+							<p:outputLabel value="#{opti.destStation}" />
+						</p:column>
+						
+						
+						<p:column headerText="To Train No">
+							<p:outputLabel value="#{opti.trainno2}" />
+						</p:column>
+						
+					
+					</p:dataTable> -->
+					<div style="float:left; margin-left:-70px;">
+					<p:dataTable id="tblOptimizeSecond" value="#{drivingbean.toAndFromStationList}" var="optimizedVar" style="text-align:center;width:70%;float:left;">
+					
+						
+						
+						
+						<p:column headerText="From Train No">
+							<p:outputLabel value="#{optimizedVar.trainNo}" >
+							</p:outputLabel>
+						</p:column>
+						
+						<p:column headerText="From Station">
+							<p:outputLabel value="#{optimizedVar.fromStation}" />
+						</p:column>
+					
+						<p:column headerText="To Station">
+							<p:outputLabel value="#{optimizedVar.toStation}" />
+						</p:column>
+						
+						
+						<p:column headerText="Departure">
+							<p:outputLabel value="#{optimizedVar.departure.toString().substring(10,16)}" />
+						</p:column>
+						
+						<p:column headerText="Arrival">
+							<p:outputLabel value="#{optimizedVar.arrival.toString().substring(10,16)}" />
+						</p:column>
+						
+						<p:column headerText="Availability">
+							<p:outputLabel value="#{optimizedVar.availability.toString().substring(10,16)}" />
+						</p:column>
+						
+						<p:column headerText="Distance">
+							<p:outputLabel value="#{optimizedVar.km}" />
+						</p:column>
+						
+						<!-- <p:column headerText="Sign Off Time">
+							<p:outputLabel value="#{optimizedVar.signoffTime}" />
+						</p:column>
+						
+						<p:column headerText="Sign On Time">
+							<p:outputLabel value="#{optimizedVar.signonTime}" />
+						</p:column> -->
+						
+						
+					</p:dataTable>
+					</div>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+

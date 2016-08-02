@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 7, 2015 1:03:33 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.PilotJourney" table="pilot_journey">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="customer" class="com.crew.model.Customer" fetch="select" lazy="false">
+            <column name="customer_table_fk" />
+        </many-to-one>
+        <property name="sourceOfTravel" type="string">
+            <column name="source_of_travel" length="7" />
+        </property>
+        <property name="fromStation" type="string">
+            <column name="From_Station" length="10" />
+        </property>
+        <property name="toStation" type="string">
+            <column name="To_Station" length="10" />
+        </property>
+        <property name="departureTime" type="string">
+            <column name="Departure_Time" length="10" />
+        </property>
+        <property name="arrivalTime" type="string">
+            <column name="Arrival_Time" length="10" />
+        </property>
+        <property name="sequenceId" type="string">
+            <column name="sequence_id" length="20" />
+        </property>
+        <property name="km" type="java.lang.Long">
+            <column name="km" />
+        </property>
+        <property name="prefix" type="string">
+            <column name="prefix" length="5" />
+        </property>
+        <property name="transactionNoDsToDd" type="java.lang.Long">
+            <column name="transaction_No_DS_TO_DD" />
+        </property>
+        <property name="trainNo" type="string">
+            <column name="`Train No`" length="7" />
+        </property>
+    </class>
+</hibernate-mapping>

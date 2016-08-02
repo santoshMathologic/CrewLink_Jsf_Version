@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="adminTemplate.xhtml">
+	<ui:define name="body">
+		<style type="text/css">
+table.infotable {
+	font-family: 'Arial';
+	margin: 5px auto;
+	border-collapse: collapse;
+	border: 1px solid #eee;
+	border-bottom: 2px solid #00cccc;
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1), 0px 10px 20px
+		rgba(0, 0, 0, 0.05), 0px 20px 20px rgba(0, 0, 0, 0.05), 0px 30px 20px
+		rgba(0, 0, 0, 0.05);
+	width: 600px;
+}
+
+table.infotable tr:hover {
+	background: #f4f4f4;
+}
+
+table.infotable tr:hover td {
+	color: #555;
+}
+
+table.infotable th, table td {
+	color: #000000;
+	border: 1px solid #eee;
+	padding: 8px 16px;
+	border-collapse: collapse;
+}
+
+table.infotable th {
+	background: #00cccc;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 12px;
+}
+
+table.infotable th.last {
+	border-right: none;
+}
+</style>
+
+		<script type="text/javascript">
+
+$('table tr').each(function(){  $(this).find('th').first().addClass('first');  $(this).find('th').last().addClass('last');  $(this).find('td').first().addClass('first');  $(this).find('td').last().addClass('last');});$('table tr').first().addClass('row-first');$('table tr').last().addClass('row-last');
+
+</script>
+
+
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+		<div class="container">
+			<div class="content" style="height: 1024px">
+
+				<h:form id="crewform">
+<p:growl id="crewgrowl" />
+<div style="margin-top: 30px;">
+<h3>Select Crewbase and Crewtype to View the CrewLinks</h3>
+						<h:panelGrid columns="2">
+
+							<p:outputLabel value="Crew Base" />
+								<p:autoComplete id="autoCom" minQueryLength="1"
+									value="#{crewlink.crewBaseQuery}"
+									completeMethod="#{crewlink.completeText}" effect="fade"
+									forceSelection="true">
+									<p:ajax event="itemSelect"
+										listener="#{crewlink.onItemSelect}" update="Crewselect" />
+
+								</p:autoComplete>
+								
+								
+								<p:outputLabel value="Crew Type" />
+
+								<h:selectOneMenu value="#{crewlink.selectedCrewBaseType}"
+									id="Crewselect" style="width:160px">
+									<f:selectItem itemLabel="Select One" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{crewlink.crewBaseMap.entrySet()}"
+										var="var" itemLabel="#{var.key}" itemValue="#{var.value}" />
+									<f:ajax event="change" execute="@this" />
+								</h:selectOneMenu>
+								
+								</h:panelGrid>
+	<p:commandButton value="Submit" action="#{crewlink.updateCrewLinkTable()}" update="crewlink totalHQRest totalOSRest totalKMRest info" icon="ui-icon-trash" title="Delete" />
+						
+					
+						<p:dataTable value="#{crewlink.listCrewLink}" rows="15"
+							var="rowvar" id="crewlink" resizableColumns="true" rowKey="#{rowvar.id}"
+							selection="#{crewlink.selectionList}"
+							style="width:105%;text-align:center">
+							<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+							<p:ajax event="colResize" update=":crewform:crewlink"
+								listener="#{crewlink.onResize}" />
+
+
+							<p:column width="10%">
+								<f:facet name="header">Train No</f:facet>
+
+
+								<p:commandLink value="#{rowvar.trainNo}"
+									action="#{crewlink.showDialog(rowvar)}"
+									onclick="PF('drivingSection').show();"
+									update=":drivingSequenceForm" />
+
+							</p:column>
+							<p:column>
+
+								<f:facet name="header">Departure</f:facet>
+                     #{rowvar.departure.toString().substring(10,16)}
+                 </p:column>
+							<p:column>
+
+								<f:facet name="header">Arrival</f:facet>
+                     #{rowvar.arrivalTime.toString().substring(10,16)}
+                 </p:column>
+							<p:column>
+
+								<f:facet name="header">Base</f:facet>
+                     #{rowvar.crewBase}
+                 </p:column>
+							<p:column headerText="Type"> 
+                     #{rowvar.crewType}
+                 </p:column>
+							<p:column headerText="Sequence"> 
+                    #{rowvar.sequenceId}
+                 </p:column>
+
+							<p:column headerText="HQ Rest"> 
+                    #{rowvar.headQuarterRest/60}
+                 </p:column>
+
+							<p:column headerText="OS Rest"> 
+                    #{rowvar.outStationRest/60}
+                 </p:column>
+							<p:column>
+								<f:facet name="header">Kilometer</f:facet>
+                       #{rowvar.distance}
+                 </p:column>
+							<p:column width="12%">
+								<f:facet name="header">Turn Around Hours</f:facet>
+                        #{rowvar.workingHour} 
+                 </p:column>
+							<p:column width="10%">
+								<f:facet name="header">Options</f:facet>
+								<p:commandButton
+									actionListener="#{crewlink.viewRoundTrip(rowvar)}"
+									update=":roundTripId" oncomplete="PF('rrInfo').show()"
+									icon="ui-icon-search" title="View">
+								</p:commandButton>
+
+								<!-- <p:commandButton
+									actionListener="#{crewlink.DeleteCrewLink(rowvar)}"
+									update=":crewform:crewlink" process="@this"
+									icon="ui-icon-trash
+ " title="Delete"
+									oncomplete="if (!confirm('Are you sure?')) return crewlink.xhtml?faces-redirect=true">
+								</p:commandButton> -->
+
+							</p:column>
+
+						</p:dataTable>
+<p:commandButton value="Delete" action="#{crewlink.deleteCrewLiniMultipleSelection}" icon="ui-icon-trash" title="Delete" />
+						<h:panelGrid id="info1" columns="4" 
+							style="width: 2%; margin-left: 460px;">
+							<p:outputLabel value="Total" />
+							<!-- 
+									<p:outputLabel value="#{crewlink.nTotalOSRestSub}" style="margin-right: 80px;" />
+									<p:outputLabel value="#{crewlink.nTotalKMSub}" /> -->
+
+						</h:panelGrid>
+						<div style="margin-top: -22px; margin-left: 663px;" >
+							<p:outputLabel value="#{crewlink.nTotalHQRestSub}" id="totalHQRest"/>
+						</div>
+						<div style="margin-top: -16px; margin-left: 760px;">
+							<p:outputLabel value="#{crewlink.nTotalOSRestSub}" id="totalOSRest"/>
+						</div>
+						<div style="margin-top: -16px; margin-left: 855px;">
+							<p:outputLabel value="#{crewlink.nTotalKMSub}" id="totalKMRest"/>
+						</div>
+
+						<br /> <br />
+
+						<h:panelGrid id="info">
+							<table class="infotable">
+								<tr>
+									<td>No. of loco pilots in the link :</td>
+									<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{crewlink.nCountNumberOfLocoPilots}</td>
+								</tr>
+								<tr>
+									<td>Average Kms. per month</td>
+									<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{crewlink.nTotalKM}</td>
+								</tr>
+								<tr>
+									<td>Average Working Hours LP per week:</td>
+									<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										#{crewlink.nAvgWorkingPerWeek}</td>
+								</tr>
+								<tr>
+									<td>OutStation Rest Per 14 days</td>
+									<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{crewlink.nTotalOSRest}</td>
+									
+								</tr>
+								<tr>
+									<td>HeadQuarter Rest Per 14 days</td>
+									<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{crewlink.nTotalHQRest}</td>
+									<!-- <td>#{crewlink.totalhqRestHours_Percentage}%</td> -->
+								</tr>
+								<tr>
+									<td>RT</td>
+									<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#{crewlink.nTotalRunningTime}</td>
+								</tr>
+							</table>
+
+						</h:panelGrid>
+					</div>
+				</h:form>
+				<p:dialog widgetVar="clemptyDlg" header="crew Link is empty">
+
+					<h:form>
+						<p:commandButton value="back"
+							action="viewroundtrips.xhtml?faces-redirect=true"></p:commandButton>
+					</h:form>
+
+				</p:dialog>
+				<p:dialog id="sequenceId" modal="true" resizable="false"
+					widgetVar="drivingSection">
+					<h:form id="drivingSequenceForm">
+						<p:dataTable value="#{crewlink.ccdsChanges}" var="rowVar">
+							<p:column>
+								<f:facet name="header">
+						            TrainNo.
+						        </f:facet>
+						        #{rowVar.trainNo}
+						    </p:column>
+
+							<p:column>
+								<f:facet name="header">
+						            CrewBase
+						        </f:facet>
+						         #{rowVar.crewBase}
+        					</p:column>
+
+							<p:column>
+								<f:facet name="header">
+					           		Crew Type
+							    </f:facet>
+							     #{rowVar.crewType}
+					        </p:column>
+
+
+							<p:column>
+													<f:facet name="header">
+					            From
+					        </f:facet>
+					         #{rowVar.fromStation}
+					        </p:column>
+
+							<p:column>
+								<f:facet name="header">
+						            To
+						        </f:facet>
+						         #{rowVar.toStation}
+						        </p:column>
+
+							<p:column>
+								<f:facet name="header">
+						            Departure
+						        </f:facet>
+						         #{rowVar.departure.toString().subSequence(10,19)}
+						        </p:column>
+
+							<p:column>
+								<f:facet name="header">
+						            Arrival
+						        </f:facet>
+						         #{rowVar.arrival.toString().subSequence(10,19)}
+						        </p:column>
+
+							<p:column>
+								<f:facet name="header">
+						         Distance
+						        </f:facet>
+						         #{rowVar.kilometer}
+						        </p:column>
+
+							<p:column>
+								<f:facet name="header">
+            Hour
+        </f:facet>
+         #{rowVar.hour}
+        </p:column>
+						</p:dataTable>
+					</h:form>
+
+				</p:dialog>
+
+
+
+				<p:dialog widgetVar="rrInfo" header="Round Trip Information"
+					modal="true" resizable="false">
+
+					<p:dataTable id="roundTripId" value="#{crewlink.listRoundTrip}"
+						var="rowvar" rows="10" style="text-align:center;">
+
+
+						<p:column headerText="Train No" style="width:150px;">
+#{rowvar.trainNo}
+</p:column>
+
+
+						<p:column headerText="From">
+							<h:outputText value="#{rowvar.fromStation}" />
+						</p:column>
+
+
+						<p:column headerText="To">
+							<h:outputText value="#{rowvar.toStation}" />
+						</p:column>
+						<p:column headerText="Departure">
+                            #{rowvar.departuretime.toString().substring(10,16)}
+                        </p:column>
+						<p:column headerText="Arrival">
+#{rowvar.arrivaltime.toString().substring(10,16)}
+</p:column>
+						<p:column headerText="CrewBase">
+							<h:outputText value="#{rowvar.crewBase}" />
+						</p:column>
+
+						<p:column headerText="CrewType">
+							<h:outputText value="#{rowvar.crewType}" />
+						</p:column>
+
+						<p:column headerText="SignOn">
+							<p:outputLabel
+								value="#{rowvar.signonTime.toString().substring(10,16)}"></p:outputLabel>
+						</p:column>
+
+						<p:column headerText="SignOff">
+							<p:outputLabel
+								value="#{rowvar.signoffTime.toString().substring(10,16)}"></p:outputLabel>
+						</p:column>
+
+
+						<p:column headerText="Availablity AT HQ">
+							<p:outputLabel value="#{rowvar.availabilityAtHq}"></p:outputLabel>
+						</p:column>
+
+						<p:column headerText="Total Hours">
+							<p:outputLabel value="#{rowvar.noOfDays}"></p:outputLabel>
+						</p:column>
+
+					</p:dataTable>
+
+				</p:dialog>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

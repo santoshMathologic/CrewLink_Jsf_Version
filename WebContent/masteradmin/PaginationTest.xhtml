@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui" template="template.xhtml">
+
+<ui:define name="body">
+
+
+
+<h:head>
+
+<link href="css/TableCSSCode.css" rel="stylesheet"></link>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet"></link>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+ <link rel="stylesheet" href="css/table-style.css"></link>
+</h:head>
+
+
+
+
+<h:body>
+
+
+ <div class="container" style="height:1500px;margin-left:-50px">
+  <h:form id="mainform" prependId="false">  
+  <h:outputText value="List is empty" rendered="#{paginationbean.listEmpty()}"/>
+    
+<h:dataTable value="#{paginationbean.model}" id="maintable" var="rowVar" rows="10" styleClass="order-table"
+                headerClass="order-table-header"
+                rowClasses="order-table-odd-row,order-table-even-row" width="110%" style="font-size:12px" 
+                rendered="#{paginationbean.model ne null}"
+                binding="#{maintable}">
+
+
+
+
+
+<h:column>
+<f:facet name="header">No.</f:facet>
+
+</h:column>
+
+<h:column>
+<f:facet name="header">FirstName</f:facet>
+#{rowVar.firstname}
+</h:column>
+
+<h:column>
+<f:facet name="header">Middle</f:facet>
+#{rowVar.middlename}
+</h:column>
+
+<h:column>
+<f:facet name="header">Last</f:facet>
+#{rowVar.lastname}
+</h:column>
+
+<h:column>
+<f:facet name="header">User</f:facet>
+#{rowVar.username}
+</h:column>
+
+<h:column>
+<f:facet name="header">Password</f:facet>
+#{rowVar.password}
+</h:column>
+
+<h:column>
+<f:facet name="header">E-mail</f:facet>
+#{rowVar.emailAddress}
+</h:column>
+
+<h:column>
+<f:facet name="header">Dob</f:facet>
+#{rowVar.dob}
+</h:column>
+<h:column>
+<f:facet name="header">Role</f:facet>
+#{rowVar.userRole}
+</h:column>
+
+<h:column>
+<f:facet name="header">City</f:facet>
+#{rowVar.city}
+</h:column>
+
+<h:column>
+<f:facet name="header">States</f:facet>
+#{rowVar.states}
+</h:column>
+
+<h:column>
+<f:facet name="header">Address</f:facet>
+#{rowVar.address}
+</h:column>
+
+<h:column>
+<f:facet name="header">Zone</f:facet>
+#{rowVar.zones}
+</h:column>
+
+   <h:column headerText="options">
+                         <f:facet name="header">option</f:facet>
+                    <h:commandLink action="#{adminviewusers.deleteusers}" update=":viewform">
+                    <f:setPropertyActionListener target="#{adminviewusers.deletedId}" value="#{rowVar.id}" />
+                     <f:ajax execute="@this" render="@none" />
+                    <h:graphicImage value="/masteradmin/images/deleteicon.png" width="10" height="10" />
+                    </h:commandLink>
+                   
+                    &nbsp;&nbsp;
+                    
+                    <p:commandLink actionListener="#{adminviewusers.update}" oncomplete="PF('editDlg').show();">
+                     <f:attribute name="passId" value="#{rowVar.id}" />
+                     <f:ajax execute="@this" render="@none" />
+                    <h:graphicImage value="/masteradmin/images/pen.png" width="10" height="10" />
+                    </p:commandLink>
+                    </h:column>
+
+</h:dataTable>
+
+<div style="margin-left:450px">
+        <p:commandLink styleClass="btn btn-warning" value="Prev" action="#{paginationbean.prev}" update="mainform">
+          <span class="glyphicon glyphicon-step-backward"></span>
+         
+        </p:commandLink>
+        <h:outputText value="#{paginationbean.pageIndex} / #{paginationbean.pages}"/>
+        <p:commandLink styleClass="btn btn-warning"  value="Next" action="#{paginationbean.next}" update="mainform">
+          <span class="glyphicon glyphicon-step-forward"></span>
+         
+        </p:commandLink>
+        <h:inputHidden value="#{paginationbean.pageIndex}"/>
+        
+        </div>
+
+
+
+</h:form>
+
+
+<p:dialog widgetVar="editDlg" modal="true" resizable="false" width="350" height="400" id="updateDialog" draggable="false">
+
+<h:form id="updateForm">
+<h:panelGrid columns="2" cellpadding="10" cellspacing="10">
+
+
+<h:outputLabel value="FirstName"/>
+<h:inputText value="#{adminviewusers.cst.firstname}" >
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="LastName"/>
+<h:inputText value="#{adminviewusers.cst.lastname}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="UserName"/>
+<h:inputText value="#{adminviewusers.cst.username}" >
+<f:ajax event="change"/>
+</h:inputText>
+
+
+<p:outputLabel value="Password"/>
+<h:inputText value="#{adminviewusers.cst.password}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="City"/>
+<h:inputText value="#{adminviewusers.cst.city}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="States"/>
+<h:inputText value="#{adminviewusers.cst.states}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="Dob"/>
+<h:inputText value="#{adminviewusers.cst.dob}">
+<f:ajax event="change"/>
+</h:inputText>
+
+
+<p:outputLabel value="UserRole"/>
+<h:inputText value="#{adminviewusers.cst.userRole}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="Address"/>
+<h:inputText value="#{adminviewusers.cst.address}">
+<f:ajax event="change"/>
+</h:inputText>
+
+
+<p:outputLabel value="Zone"/>
+
+<h:inputText value="#{adminviewusers.cst.zones}">
+<f:ajax event="change"/>
+</h:inputText>
+
+
+<p:commandButton value="Save" actionListener="#{adminviewusers.saveUpdate}" >
+
+</p:commandButton>
+<p:commandButton value="Reset"/>
+
+
+</h:panelGrid>
+</h:form>
+
+
+</p:dialog>
+
+
+
+</div>
+</h:body>
+</ui:define>
+</ui:composition>

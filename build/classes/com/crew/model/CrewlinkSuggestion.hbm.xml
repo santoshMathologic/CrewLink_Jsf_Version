@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 19, 2015 4:51:18 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.CrewlinkSuggestion" table="crewlink_suggestion">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="firstId" type="java.lang.Long">
+            <column name="first_id" />
+        </property>
+        <property name="secondId" type="java.lang.Long">
+            <column name="second_id" />
+        </property>
+        <property name="difference" type="java.lang.Integer">
+            <column name="difference" />
+        </property>
+        <property name="hqRest" type="string">
+            <column name="hq_rest" length="6" />
+        </property>
+    </class>
+</hibernate-mapping>

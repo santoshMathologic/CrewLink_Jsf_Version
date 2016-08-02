@@ -1,0 +1,422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="adminTemplate.xhtml">
+
+	<ui:define name="body">
+
+
+		<style>
+.indent-1 {
+	float: left;
+}
+
+.indent-1 section {
+	width: 50%;
+	float: left;
+}
+</style>
+		<style type="text/css">
+.HQ {
+	background-color: rgb(252, 213, 180) !important;
+	color: #000000 !important;
+}
+
+.OS {
+	background-color: rgb(255, 255, 153) !important;
+	color: #000000 !important;
+}
+
+.HQ_OS {
+	background-color: rgb(194, 214, 154) !important;
+	color: #000000 !important;
+}
+</style>
+
+
+		<style type="text/css">
+#HQ_OS {
+	width: 20px;
+	height: 20px;
+	background-color: rgb(194, 214, 154) !important;
+	text-align: center;
+}
+
+#OS {
+	width: 20px;
+	height: 20px;
+	background-color: rgb(255, 255, 153) !important;
+	text-align: center;
+}
+
+#HQ {
+	width: 20px;
+	height: 20px;
+	background-color: rgb(252, 213, 180) !important;
+	text-align: center;
+}
+</style>
+
+
+
+		<div class="container">
+			<div class="content" style="height: 1200px">
+
+				<h:form id="viewform">
+					<p:growl autoUpdate="true" id="viewGrowl" />
+
+
+
+					<h:panelGrid columns="6">
+						<div id="HQ_OS" />
+						<p:outputLabel value="HQ&amp;OS" />
+						<div id="HQ" />
+						<p:outputLabel value="HQ" />
+						<div id="OS" />
+						<p:outputLabel value="OS" />
+					</h:panelGrid>
+
+					<p:fieldset>
+						<p:dataTable style="width:70%;float:left;text-align:center"
+							var="rowvar" value="#{crewdetailbean.tableList}" paginator="true"
+							paginatorPosition="bottom" rows="10" id="addcrew"
+							binding="#{addcrew}" rowIndexVar="index"
+							rowStyleClass="#{rowvar.os==true and rowvar.hq==true?'HQ_OS':'' or rowvar.os==true?'OS':'' or rowvar.hq==true?'HQ':''}">
+
+
+
+							<p:column headerText="Train No">
+                                #{rowvar.trainNo}
+                            </p:column>
+
+
+							<p:column headerText="stationCode">
+  #{rowvar.stationCode}
+  </p:column>
+
+							<p:column headerText="Arrival">
+    #{rowvar.arrival.toString().substring(11,16)}
+  </p:column>
+
+							<p:column headerText="Departure">
+    #{rowvar.departure.toString().substring(11,16)}
+  </p:column>
+
+							<p:column headerText="Distance">
+    #{rowvar.distance}
+  </p:column>
+
+
+							<p:column headerText="Loco Change">
+    #{rowvar.locoChange}
+  </p:column>
+
+						</p:dataTable>
+
+
+						<p:fieldset>
+							<h2>Generate Driving Section</h2>
+
+							<h:panelGrid columns="2" style="margin-left:95px;height:220px">
+
+
+
+
+								<p:outputLabel value="Train No." />
+								<h:inputText value="#{crewdetailbean.toTrain}" />
+
+
+								<p:outputLabel value="From" />
+								<h:inputText value="#{crewdetailbean.fromTrain}" id="from"
+									disabled="true" />
+
+								<p:outputLabel value="To" />
+								<p:selectOneMenu value="#{crewdetailbean.selectedToStation}"
+									id="select" style="width:160px">
+									<f:selectItem itemLabel="----Select-------" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{crewdetailbean.toStationList}"
+										var="var" itemLabel="#{var}" itemValue="#{var}" />
+									<p:ajax listener="#{crewdetailbean.selectedStation}"
+										execute="@this" />
+								</p:selectOneMenu>
+
+
+								<p:outputLabel value="Crew Base" />
+								<p:autoComplete id="autoCom" minQueryLength="1"
+									value="#{crewdetailbean.crewBaseQuery}"
+									completeMethod="#{crewdetailbean.completeText}" effect="fade"
+									forceSelection="true">
+									<p:ajax event="itemSelect"
+										listener="#{crewdetailbean.onItemSelect}" update="Crewselect" />
+
+
+								</p:autoComplete>
+
+
+								<p:outputLabel value="Crew Type" />
+
+								<h:selectOneMenu value="#{crewdetailbean.selectedCrewBaseType}"
+									id="Crewselect" style="width:160px">
+									<f:selectItem itemLabel="Select One" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{crewdetailbean.crewBaseMap.entrySet()}"
+										var="var" itemLabel="#{var.key}" itemValue="#{var.value}" />
+									<f:ajax event="change" execute="@this" />
+								</h:selectOneMenu>
+
+
+
+								<p:commandButton value="save"
+									actionListener="#{crewdetailbean.saveToDb}"
+									update="CrewTable viewGrowl" process="@this">
+
+
+								</p:commandButton>
+								<p:commandButton value="back"
+									action="alltrain.xhtml?faces-redirect=true"></p:commandButton>
+
+							</h:panelGrid>
+						</p:fieldset>
+						<br />
+
+
+
+
+					</p:fieldset>
+
+					<h2>
+						<u>Suggestions for Creating Driving Sections</u>
+					</h2>
+
+					<h:panelGrid columns="4">
+					 
+						<p:outputLabel value="Enter Required Hour" style="font-weight:bold"/>
+						<p:inputText  value="#{crewdetailbean.lRequiredHour}">
+							 <!-- <f:validator validatorId="com.crew.util.Forward"/> -->  
+					     </p:inputText>
+						
+						
+						<p:commandButton action="#{crewdetailbean.forward3}"
+							value="Suggestion 1" style="margin-left:20px;margin-top:12px"
+							update=":viewform:testid :viewform:viewGrowl" />
+                        
+
+						 <p:commandButton action="#{crewdetailbean.backwardSuggestion}"
+                                value="Suggestion 2"
+                                style="margin-left:20px;margin-top:12px" update=":viewform:testid2: :viewform:viewGrowl" />
+					</h:panelGrid>
+					<hr></hr>
+
+
+
+					<section class="indent-1"> <section>
+					<div>
+						<h2>
+							<u>Suggestion 1</u>
+						</h2>
+						<p:dataTable value="#{crewdetailbean.listTest}" var="list"
+							id="testid" style="text-align:center">
+
+							<p:column headerText="From Station">
+								<p:outputLabel value="#{list.fromStation}"></p:outputLabel>
+							</p:column>
+
+							<p:column headerText="To Station">
+								<p:outputLabel value="#{list.toStation}"></p:outputLabel>
+							</p:column>
+
+							<p:column headerText="Departure">
+								<p:outputLabel
+									value="#{list.departure.toString().substring(11,16)}"></p:outputLabel>
+							</p:column>
+
+							<p:column headerText="Arrival">
+								<p:outputLabel
+									value="#{list.arrival.toString().substring(11,16)}"></p:outputLabel>
+							</p:column>
+
+							<p:column headerText="Distance">
+								<p:outputLabel value="#{list.distance}"></p:outputLabel>
+							</p:column>
+
+						</p:dataTable>
+						<p:commandButton value="Accept"
+							action="#{crewdetailbean.updateToDrivingSectionTable}"
+							update="CrewTable" style="margin-top: 10px;" />
+
+					</div>
+					</section>  <section>
+                    <div style="margin-left: 10px ">
+
+                    <h2><u>Suggestion 2</u></h2>
+                    <p:dataTable value="#{crewdetailbean.listTest2}" var="list1"
+                        id="testid2" style="text-align:center">
+
+                        <p:column headerText="From Station">
+                            
+                            
+                            <p:outputLabel value="#{list1.fromStation}"></p:outputLabel>
+                        </p:column>
+
+                        <p:column headerText="To Station">
+                            
+                            <p:outputLabel value="#{list1.toStation}"></p:outputLabel>
+                        </p:column>
+
+                        <p:column headerText="Departure">
+                            <p:outputLabel
+                                value="#{list1.departure.toString().substring(11,16)}"></p:outputLabel>
+                        </p:column>
+
+                        <p:column headerText="Arrival">
+                            <p:outputLabel
+                                value="#{list1.arrival.toString().substring(11,16)}"></p:outputLabel>
+                        </p:column>
+
+                        <p:column headerText="Distance">
+                            <p:outputLabel value="#{list1.distance}"></p:outputLabel>
+                        </p:column>
+
+                        <!-- <p:column headerText="Enter Crew Base">
+                            <p:inputText value="#{crewdetailbean.strCrewBase1}" >
+                            <p:ajax event="change" listener="#{crewdetailbean.listTest111(list.id)}" />
+                            </p:inputText> 
+                        </p:column>
+                        
+                        <p:column headerText="Enter Crew Type">
+                            <p:inputText value="#{crewdetailbean.crewType1}" >
+                                <p:ajax event="change" listener="#{crewdetailbean.listTest211(list.id)}" />
+                            </p:inputText>
+                        </p:column>
+                         -->
+                    </p:dataTable>
+                    <p:commandButton value="Accept"  action="#{crewdetailbean.updateToDrivingSectionTable1()}" update="CrewTable"  style="margin-top: 10px;" />
+</div>
+</section> </section>
+
+
+<div style="margin-top:500px">
+
+					<p:dataTable value="#{crewdetailbean.crewList}" var="crewVar"
+						id="CrewTable" paginatorAlwaysVisible="false" rows="10"
+						paginator="true" paginatorPosition="bottom" reflow="true"
+						style="text-align:center;">
+						<p:column headerText="Train No">
+#{crewVar.trainNo}
+</p:column>
+
+						<p:column headerText="From">
+#{crewVar.fromStation}
+</p:column>
+
+						<p:column headerText="To">
+#{crewVar.toStation}
+</p:column>
+
+
+						<p:column headerText="Departure">
+#{crewVar.departure.toString().substring(11,16)}
+</p:column>
+
+
+						<p:column headerText="Arrival">
+#{crewVar.arrival.toString().substring(11,16)}
+</p:column>
+
+
+						<p:column headerText="Distance">
+#{crewVar.kilometer}
+</p:column>
+
+
+						<p:column headerText="CrewBase">
+#{crewVar.crewBase}
+</p:column>
+
+						<p:column headerText="CrewType">
+#{crewVar.crewType}
+</p:column>
+
+
+
+
+
+
+						<p:column headerText="Action">
+							<p:commandLink
+								actionListener="#{crewdetailbean.editCrew(crewVar)}"
+								title="Update">
+								<h:graphicImage value="/admin/images/pen.png" width="12"
+									height="12" />
+							</p:commandLink>
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+<p:commandLink actionListener="#{crewdetailbean.delete(crewVar)}"
+								title="Delete"
+								onclick="if (!confirm('Are you sure?')) return false">
+								<h:graphicImage value="/admin/images/deleteicon.png" width="12"
+									height="12" />
+							</p:commandLink>
+						</p:column>
+
+					</p:dataTable>
+
+</div>
+				</h:form>
+				
+
+				<p:dialog widgetVar="creweditDialog" id="crewDlgid" modal="true"
+					resizable="false">
+					<h:form>
+						<h:panelGrid columns="2" cellpadding="5" cellspacing="5">
+		Train No.
+		<h:inputText value="#{crewdetailbean.editCrewChange.trainNo}" />
+		CrewBase
+		<h:inputText value="#{crewdetailbean.editCrewChange.crewBase}" />
+		CrewType
+		<h:inputText value="#{crewdetailbean.editCrewChange.crewType}" />
+		
+		Arrival
+		<p:calendar pattern="MM/dd/yyyy HH:mm:ss"
+								value="#{crewdetailbean.editCrewChange.arrival}" />
+        
+		
+		Departure
+		
+		<p:calendar pattern="MM/dd/yyyy HH:mm:ss"
+								value="#{crewdetailbean.editCrewChange.departure}" />
+		From Station
+		<h:inputText value="#{crewdetailbean.editCrewChange.fromStation}" />
+		
+		 To Station
+        <h:inputText value="#{crewdetailbean.editCrewChange.toStation}" />
+		
+		Hours
+		<h:inputText value="#{crewdetailbean.editCrewChange.hour}" />
+		Kilometer
+		<h:inputText value="#{crewdetailbean.editCrewChange.kilometer}" />
+						</h:panelGrid>
+						<p:commandButton value="Save"
+							actionListener="#{crewdetailbean.editSave}"
+							oncomplete="PF('creweditDialog').hide();" />
+					</h:form>
+				</p:dialog>
+
+
+
+
+
+
+				<div class="clear"></div>
+
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>

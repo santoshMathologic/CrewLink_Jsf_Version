@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+
+
+ 
+ <h:head>
+    <title>Mathologic Technologies Pvt Limited</title>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="csslogin/reset.css"/>
+    <link rel="stylesheet" href="csslogin/style.css"/>
+       
+    <link rel='stylesheet prefetch' href='http://daneden.github.io/animate.css/animate.min.css'/>
+    <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Roboto:400,100,400italic,700italic,700'/>
+    <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'/>
+    <link rel="shortcut icon" href="images/favicon-32x32.png" type="image/x-icon"/>
+    
+    <!-- <link rel="stylesheet" href="bootstraps/bootstrap.css"/> -->
+    <!-- <link rel="stylesheet" href="bootstraps/bootstrap.min.css"/> -->
+    <!-- <link rel="stylesheet" href="bootstraps/formValidation.css"/> -->
+    
+     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <!--   <script src="bootstraps/bootstrap.min.js"></script> -->
+    <!-- <script src="bootstraps/bootstrap.js"></script> -->
+    <!-- <script src="bootstraps/formValidation.js"></script> -->
+
+<script type="text/javascript">
+function openModal() {
+    $('#myModal').modal('show');
+}
+</script>
+
+<script type="text/javascript">
+function hideModal(){
+	$('#myModal').modal('hide');
+}
+</script>
+
+<script type="text/javascript">
+function validate(){
+  if(document.LoginForm["LoginForm:username"].value ==''){
+	  alert("Please enter the name");
+	  return false; 
+  }
+  if(document.LoginForm["LoginForm:password"].value ==''){
+      alert("Please enter the password");
+      return false; 
+  }
+
+  
+  
+  return true;
+  
+}
+  </script>
+
+
+    
+  </h:head>
+
+  <h:body>
+    
+<div class='form aniamted bounceIn'>
+  <div class='login'>
+    <h2>Login To Your Account</h2>
+    <h:form id="LoginForm" onsubmit="return validate();">
+    
+    
+    <h:graphicImage value="/images/Mathologic Technologies Private Limited_393320.png" />
+     
+    <h:inputText value="#{commonloginbean.username}"  id="username"  a:placeholder="Username"  styleClass="usernameclass"  />
+    
+    
+    <h:inputSecret value="#{commonloginbean.password}" id="password"   a:placeholder="Password"  styleClass="passwordClass" />
+      
+    <p:commandButton action="#{commonloginbean.verifyCommonLogin}" onclick="return validate();" immediate="false"  update="LoginForm"  value="Login" styleClass="loginbutton"/>
+      
+      <h:panelGrid columns="3" cellpadding="5" cellspacing="5">
+     <p:commandLink  value="CreateAccount" action="register.xhtml?faces-redirect=true" immediate="true" style="color:#33b5e5"/>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+     &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+      <p:commandLink  value="ForgetPassword" style="color:#33b5e5" onclick="openModal();"/>
+    </h:panelGrid>
+    <br/>
+    <br/>
+    <!-- <p:outputLabel id="message" value="#{param['msg']}" style="color:red"></p:outputLabel> --> 
+    <h:outputText value="You have been logged out successfully" 
+rendered="#{not empty param['logoutMsg']}" style="color:red;font-family:times new roman"/>
+
+
+
+
+    <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Reset Your Password</h4>
+        </div>
+        <div class="modal-body">
+          <br/>
+          <p:inputText id="email"  value="#{forgetpasskeybean.emailAddress}" styleClass="form-control">
+          <p:ajax/>
+          <!-- <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> -->
+          </p:inputText>
+          <p:watermark for="email" value="Email Address *" />
+          <!-- <p:message for="email" /> -->
+          
+       <div style="width: 88%; height: 70px; color: black; text-align: center;margin-top: 20px;">
+                        “Please enter your Email address which you provided during Registration.”
+        </div>
+
+          
+        </div>
+        <div class="modal-footer">
+        
+        
+        <p:commandButton styleClass="btn btn-primary" process="@this" onclick="hideModal();" style="width:80px;height:35px" value="Send" action="#{forgetpasskeybean.resetToDB}"/>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+
+
+
+
+
+    
+    
+    </h:form>
+  </div>
+  
+  
+ </div>
+  </h:body>
+
+
+
+
+</html>

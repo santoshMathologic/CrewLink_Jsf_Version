@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="template.xhtml">
+
+<ui:define name="body">
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/table-style.css"></link>
+    <link rel="stylesheet" href="css/TableCSSCode.css"></link>
+
+<script type="text/javascript">
+$(window).load(function () {
+    $(document).delegate(".checkall", "click", function(event) {
+          $(this).closest("table").find(':checkbox').attr('checked', this.checked);
+    });
+});
+
+</script>
+
+<style type="text/css">
+
+.enableRows
+{
+background-color: #B3FFB3;
+color:black;
+}
+.disableRows
+{
+background-color:#FF7575;
+color:black;
+}
+
+
+.btnsuccess
+{
+background-color: #B3FFB3; 
+}
+
+
+</style>
+
+
+
+
+
+		<h:form id="viewform">
+			<p:growl id="viewGrowl" />
+			
+	   <div style="height:1400px;margin-left:-110px" class="container" >
+			<h:dataTable  id="userTable" styleClass="order-table"
+                headerClass="order-table-header"
+                rowClasses="order-table-odd-row,order-table-even-row"
+                width="115%"
+                  style="font-size:12px"  rows="40" value="#{disableAccountbean.customerListDisableEnablelist}"
+             var="rowVar" >
+      
+ 
+      
+ 
+       
+               <h:column>
+               <f:facet name="header">FirstName</f:facet>
+                 <div class="#{rowVar.account=='true'?'enableRows':'disableRows'}">
+                     <h:outputLabel value="#{rowVar.username}" />
+                     </div>
+               </h:column>
+               
+                   <h:column>
+                        <div class="#{rowVar.account=='true'?'enableRows':'disableRows'}">
+                             <f:facet name="header">Username</f:facet>
+                                <h:outputLabel value="#{rowVar.username}" />
+                        </div>
+                    </h:column>
+               
+               
+               
+               <h:column>
+                        <f:facet name="header">Password</f:facet>
+                          <div class="#{rowVar.account=='true'?'enableRows':'disableRows'}">
+                        <h:outputLabel value="#{rowVar.password}" />
+                        </div>
+                </h:column>
+                
+                <h:column>
+                        <f:facet name="header">City</f:facet>
+                          <div class="#{rowVar.account=='true'?'enableRows':'disableRows'}">
+                        <h:outputLabel value="#{rowVar.city}" />
+                        </div>
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">States</f:facet>
+                          <div class="#{rowVar.account=='true'?'enableRows':'disableRows'}">
+                        <h:outputLabel value="#{rowVar.states}" />
+                        </div>
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">Dob</f:facet>
+                          <div class="#{rowVar.account=='true'?'enableRows':'disableRows'}">
+                        <h:outputLabel value="#{rowVar.dob}" />
+                        </div>
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">UserRoles</f:facet>
+                          <div class="#{rowVar.account=='true'?'enableRows':'disableRows'}">
+                        <h:outputLabel value="#{rowVar.userRole}" />
+                        </div>
+                    </h:column>
+                    <h:column width="30%">
+                      <div class="#{rowVar.account=='true'?'enableRows':'disableRows'}">
+                        <f:facet name="header">Address</f:facet>
+                           
+                            <h:outputLabel value="#{rowVar.address}" />
+                           </div>
+                    </h:column>
+                
+                     <h:column width="12%">
+                        <f:facet name="header">Zones</f:facet>
+                            <div class="#{rowVar.account=='true'?'enableRows':'disableRows'}">
+                        <h:outputLabel value="#{rowVar.zones}" />
+                        </div>
+                    </h:column>
+                    
+                    
+                 <h:column>
+                
+                   <f:facet name="header">Option</f:facet>
+                    <!--  <f:facet name="header">
+                              <h:selectBooleanCheckbox styleClass="checkall"/>
+                   </f:facet> -->
+                 <h:selectBooleanCheckbox value="#{disableAccountbean.isDisable}">
+                    <p:ajax listener="#{disableAccountbean.account}" update="@all" />
+                    <f:param name="QUERYPARAM" value="#{rowVar.id}" />
+                </h:selectBooleanCheckbox>
+                  </h:column>
+            
+            
+               <h:column>
+                 <f:facet name="header">Status</f:facet>
+                 <p:commandButton value="#{rowVar.account==true?'E':'D'}" action="#{disableAccountbean.isEnable}" update=":dlgForm" styleClass="#{rowVar.account==true?'enableRows':'disableRows'}"  onclick="PF('dlgshow').show();">
+                   <f:param name="QUERYPARAM" value="#{rowVar.id}" />
+                   </p:commandButton>
+                 
+                  </h:column>
+            
+                    
+                    
+                    
+  </h:dataTable>
+          
+         
+          <br/>
+ 
+  
+        <div align="right">
+      <p:commandLink value="Previous" action="#{disableAccountbean.prev}" styleClass="btn btn-warning" update="viewform">
+            <span class="glyphicon glyphicon-step-backward"></span>
+           <!--  <f:ajax execute="@this" render="viewform" /> -->
+        </p:commandLink>
+        
+         <h:outputText value="#{disableAccountbean.pageIndex} / #{disableAccountbean.pages}"/>
+        
+        &nbsp;
+          <p:commandLink value="next" action="#{disableAccountbean.next}" styleClass="btn btn-warning" update="viewform">
+             <span class="glyphicon glyphicon-step-forward"></span>
+             <!-- <f:ajax execute="@this" render="viewform" /> -->
+        </p:commandLink>
+        
+          <h:inputHidden value="#{disableAccountbean.pageIndex}"/>
+        
+        
+         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+           &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+         <h:commandLink value="Save" actionListener="#{disableAccountbean.listener}"  styleClass="btn btn-primary">
+         
+         </h:commandLink>
+         
+         
+        </div>
+       
+       
+       </div> 
+      	</h:form>
+
+
+<p:dialog widgetVar="dlgshow" modal="true" resizable="false" width="1300" height="120" draggable="false">
+<h:form id="dlgForm">
+<table class="CSSTableGenerator">
+<tr>
+<th>first</th>
+<th>Middle </th>
+<th>last</th>
+<th>User</th>
+<th>Password</th>
+<th>Email</th>
+<th>Dob</th>
+<th>role</th>
+<th>city</th>
+<th>states</th>
+<th>address</th>
+<th>Zone </th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td> #{disableAccountbean.customerObject.firstname}</td>
+<td> #{disableAccountbean.customerObject.middlename}</td>
+<td> #{disableAccountbean.customerObject.lastname}</td>
+<td> #{disableAccountbean.customerObject.username}</td>
+<td> #{disableAccountbean.customerObject.password}</td>
+<td> #{disableAccountbean.customerObject.emailAddress}</td>
+<td> #{disableAccountbean.customerObject.dob}</td>
+<td> #{disableAccountbean.customerObject.userRole}</td>
+<td> #{disableAccountbean.customerObject.city}</td>
+<td> #{disableAccountbean.customerObject.states}</td>
+<td> #{disableAccountbean.customerObject.address}</td>
+
+<td> #{disableAccountbean.customerObject.zones}</td>
+<td><h:selectBooleanCheckbox value="#{disableAccountbean.customerObject.account}" /></td>
+
+</tr>
+</table>
+<br/>
+  <p:commandLink value="Save" actionListener="#{disableAccountbean.updateRecords}" update=":viewform"  styleClass="btn btn-warning" oncomplete="PF('dlgshow').hide();"></p:commandLink>
+
+</h:form>
+</p:dialog>
+
+
+
+
+	</ui:define>
+
+</ui:composition>

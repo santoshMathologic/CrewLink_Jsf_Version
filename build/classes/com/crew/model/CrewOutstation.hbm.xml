@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 28, 2015 3:26:24 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.CrewOutstation" table="crew_outstation">
+        <id name="id" type="java.lang.Long">
+            <column name="Id" />
+            <generator class="identity" />
+        </id>
+        <property name="stationCode" type="string">
+            <column name="Station_Code" length="7" />
+        </property>
+        <property name="noOfRunningRoomBeds" type="java.lang.Integer">
+            <column name="No_Of_RunningRoom_Beds" />
+        </property>
+        <property name="timeGivenforSignOn" type="java.lang.Integer">
+            <column name="TimeGivenforSignOn" />
+        </property>
+        <property name="timeGivenforSignOff" type="java.lang.Integer">
+            <column name="TimeGivenforSignOff" />
+        </property>
+    </class>
+</hibernate-mapping>

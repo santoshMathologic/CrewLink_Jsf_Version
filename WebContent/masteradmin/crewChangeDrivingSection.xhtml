@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui" template="template.xhtml">
+
+<ui:define name="body">
+
+
+
+<h:head>
+
+<link href="css/TableCSSCode.css" rel="stylesheet"></link>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet"></link>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+ <link rel="stylesheet" href="css/table-style.css"></link>
+</h:head>
+
+
+
+
+<h:body>
+
+
+
+<br/>
+ <div class="container" style="height:1500px;margin-left:-50px">
+  <h:form id="mainform" prependId="false">  
+   
+<h:dataTable value="#{crewchange.model}" id="maintable" var="rowVar" styleClass="order-table"
+                headerClass="order-table-header"
+                rowClasses="order-table-odd-row,order-table-even-row" width="110%" style="font-size:12px" 
+                >
+
+
+
+
+
+<h:column>
+<f:facet name="header">TrainNo 
+
+<br/>
+<h:inputText value="#{crewchange.searchStr}" >
+<f:ajax event="change" listener="#{crewchange.searchResult}" execute="@this" render="maintable"/>
+</h:inputText>
+
+
+
+</f:facet>
+#{rowVar.trainNo}
+</h:column>
+
+<h:column>
+<f:facet name="header">from</f:facet>
+#{rowVar.fromStation}
+</h:column>
+
+<h:column>
+<f:facet name="header">To</f:facet>
+#{rowVar.toStation}
+</h:column>
+
+<h:column>
+
+
+<f:facet name="header">Base 
+</f:facet>
+#{rowVar.crewBase}
+
+</h:column>
+
+<h:column>
+<f:facet name="header">Type</f:facet>
+#{rowVar.crewType}
+</h:column>
+
+<h:column>
+<f:facet name="header">Departure</f:facet>
+#{rowVar.departure}
+</h:column>
+
+<h:column>
+<f:facet name="header">Arrival</f:facet>
+#{rowVar.arrival}
+</h:column>
+
+<h:column>
+<f:facet name="header">Distance</f:facet>
+#{rowVar.kilometer}
+</h:column>
+
+<h:column>
+<f:facet name="header">Hour</f:facet>
+#{rowVar.hour}
+</h:column>
+
+
+
+  </h:dataTable>
+
+<div style="margin-left:450px">
+        <p:commandLink styleClass="btn btn-warning" value="Prev" action="#{crewchange.prev}" update="mainform">
+          <span class="glyphicon glyphicon-step-backward"></span>
+         </p:commandLink>
+       <h:outputText value="#{crewchange.pageIndex} / #{crewchange.pages}"  id="desc"/> 
+        <p:commandLink styleClass="btn btn-warning"  value="Next" action="#{crewchange.next}" update="mainform">
+          <span class="glyphicon glyphicon-step-forward"></span>
+          
+        </p:commandLink>
+      <h:inputHidden value="#{crewchange.pageIndex}"/>
+        </div>
+
+
+
+</h:form>
+
+
+<p:dialog widgetVar="editDlg" modal="true" resizable="false" width="350" height="400" id="updateDialog" draggable="false">
+
+<h:form id="updateForm">
+<h:panelGrid columns="2" cellpadding="10" cellspacing="10">
+
+
+<h:outputLabel value="FirstName"/>
+<h:inputText value="#{adminviewusers.cst.firstname}" >
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="LastName"/>
+<h:inputText value="#{adminviewusers.cst.lastname}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="UserName"/>
+<h:inputText value="#{adminviewusers.cst.username}" >
+<f:ajax event="change"/>
+</h:inputText>
+
+
+<p:outputLabel value="Password"/>
+<h:inputText value="#{adminviewusers.cst.password}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="City"/>
+<h:inputText value="#{adminviewusers.cst.city}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="States"/>
+<h:inputText value="#{adminviewusers.cst.states}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="Dob"/>
+<h:inputText value="#{adminviewusers.cst.dob}">
+<f:ajax event="change"/>
+</h:inputText>
+
+
+<p:outputLabel value="UserRole"/>
+<h:inputText value="#{adminviewusers.cst.userRole}">
+<f:ajax event="change"/>
+</h:inputText>
+
+<p:outputLabel value="Address"/>
+<h:inputText value="#{adminviewusers.cst.address}">
+<f:ajax event="change"/>
+</h:inputText>
+
+
+<p:outputLabel value="Zone"/>
+
+<h:inputText value="#{adminviewusers.cst.zones}">
+<f:ajax event="change"/>
+</h:inputText>
+
+
+<p:commandButton value="Save" actionListener="#{adminviewusers.saveUpdate}" >
+
+</p:commandButton>
+<p:commandButton value="Reset"/>
+
+
+</h:panelGrid>
+</h:form>
+
+
+</p:dialog>
+
+
+
+</div>
+</h:body>
+</ui:define>
+</ui:composition>

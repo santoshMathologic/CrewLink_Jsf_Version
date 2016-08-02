@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+
+
+<h:head>
+<title>Activation</title>
+<link rel="shortcut icon" href="images/favicon-32x32.png" type="image/x-icon"/>
+    <ui:fragment rendered="#{activationbean.valid}">
+        <meta http-equiv="refresh" content="5;url=login.xhtml" />
+    </ui:fragment>
+    
+    <script type="text/javascript">
+
+    window.onload = function() {
+        var countdownElement = document.getElementById('countdown'),
+            downloadButton = document.getElementById('download'),
+            seconds = 5,
+            second = 0,
+            interval;
+
+        downloadButton.style.display = 'none';
+
+        interval = setInterval(function() {
+            countdownElement.firstChild.data = 'You will in ' + (seconds - second) + 'seconds be redirected to';
+            if (second >= seconds) {
+                downloadButton.style.display = 'none';
+                clearInterval(interval);
+            }
+
+            second++;
+        }, 1000);
+    }
+
+    </script>
+    
+</h:head>
+<h:body style="background-color: #cccccc;">
+<h:form>
+   
+    <h:panelGroup layout="block" rendered="#{activationbean.valid}" style="margin-left:450px">
+        <p>Your account is successfully activated!</p>
+        
+        
+        <h:commandLink value="Check" action="#{activationbean.checkkey}"/>
+        
+        <button type="submit" id="download">Download</button>
+       <h:link outcome="login.xhtml"/>
+        <div id="countdown" style="color:blue">
+        
+        </div>
+        
+        
+        
+    </h:panelGroup>
+   
+    <h:panelGroup layout="block" rendered="#{!activationbean.valid}" style="margin-left:150px">
+        <p>Activation failed! Please enter your email address to try once again.</p> 
+        <h:form>
+            ...
+        </h:form>
+    </h:panelGroup>
+    </h:form>
+</h:body>
+
+
+
+</html>

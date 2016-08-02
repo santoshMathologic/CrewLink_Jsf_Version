@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 3, 2015 10:06:57 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.RoundtripTemp">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="fromStation" type="string">
+            <column name="from_station" length="10" />
+        </property>
+        <property name="toStation" type="string">
+            <column name="to_station" length="10" />
+        </property>
+        <property name="trainNo" type="string">
+            <column name="train_no" length="10" />
+        </property>
+        <property name="departure" type="timestamp">
+            <column name="departure" length="0" />
+        </property>
+        <property name="arrival" type="timestamp">
+            <column name="arrival" length="0" />
+        </property>
+        <property name="signon" type="timestamp">
+            <column name="signon" length="0" />
+        </property>
+        <property name="signonff" type="timestamp">
+            <column name="signonff" length="0" />
+        </property>
+        <property name="availability" type="string">
+            <column name="availability" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

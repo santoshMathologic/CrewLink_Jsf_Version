@@ -1,0 +1,38 @@
+@CHARSET "ISO-8859-1";
+.order-table{   
+    border-collapse:collapse;
+}
+
+.order-table-header{
+    text-align:center;
+    background:none repeat scroll 0 0 #E5E5E5;
+    border-bottom:1px solid #BBBBBB;
+    padding:16px;
+    
+}
+
+.order-table-odd-row{
+    text-align:left;
+    background:none repeat scroll 0 0 #FFFFFFF;
+    border-top:1px solid #BBBBBB;
+    font-style: normal !important;
+}
+
+.order-table-even-row{
+    text-align:left;
+    background:none repeat scroll 0 0 #F9F9F9;
+    border-top:1px solid #BBBBBB;
+    font-style: normal !important;
+}
+
+ .order-table-odd-row-1:hover 
+ { -moz-box-shadow: 0 0 10px rgb(255,111,111); 
+ -webkit-box-shadow: 0 0 10px rgb(255,111,111); 
+ box-shadow: 0 0 10px rgb(255,111,111); 
+ }
+
+ .order-table-even-row-1:hover 
+ { -moz-box-shadow: 0 0 10px rgb(255,111,111); 
+ -webkit-box-shadow: 0 0 10px rgb(255,111,111); 
+ box-shadow: 0 0 10px rgb(255,111,111); 
+ } 

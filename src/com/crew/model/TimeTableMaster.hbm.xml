@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 15, 2015 11:06:09 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.TimeTableMaster" table="time_table_master">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="trainNo" type="string">
+            <column name="Train_No" length="10" />
+        </property>
+        <property name="stationCode" type="string">
+            <column name="Station_Code" length="8" />
+        </property>
+        <property name="arrival" type="timestamp">
+            <column name="Arrival" length="0" />
+        </property>
+        <property name="departure" type="timestamp">
+            <column name="Departure" length="0" />
+        </property>
+        <property name="distance" type="java.lang.Integer">
+            <column name="Distance" />
+        </property>
+        <property name="crewChange" type="java.lang.Byte">
+            <column name="crew_change" />
+        </property>
+        <property name="locoChange" type="string">
+            <column name="loco_Change" length="10" />
+        </property>
+        <property name="hq" type="java.lang.Boolean">
+            <column name="HQ" />
+        </property>
+        <property name="os" type="java.lang.Boolean">
+            <column name="OS" />
+        </property>
+    </class>
+</hibernate-mapping>

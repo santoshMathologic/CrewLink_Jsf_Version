@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+  
+  
+   <h:form id="headerData">
+   
+    <link href='http://fonts.googleapis.com/css?family=Archivo+Narrow' rel='stylesheet' type='text/css'></link>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,700"/>
+    <link href='http://fonts.googleapis.com/css?family=Archivo+Narrow' rel='stylesheet' type='text/css'></link>
+   
+
+      
+   
+			<div id="logo_user_details">
+			
+			
+           <div class="logo">CREW LINK <p style="font-size:14px;">Decision Support System
+            
+           </p>
+           
+           <span>Powered by MathoLogic Technology</span>
+          
+           </div> 
+           
+          <div style="margin-left:1200px;margin-top:20px"> 
+          WELCOME 
+          <h:outputLabel value="#{infoMBean.user}" style="color:black" />
+          <br/>
+          Role  - <h:outputLabel value="#{infoMBean.userroles}" style="color:black" />
+          
+   
+       
+    <h:outputLink value="logout.xhtml">
+        <h:graphicImage value="/admin/images/exit1.png" width="20" height="20" />
+    </h:outputLink>
+         
+         
+         </div>        
+				<h1 id="logo"></h1>
+			
+			  <div id="user_details">
+		  
+			  	<ul id="user_details_menu">
+					
+					
+				       
+					</ul>
+				
+                	
+					
+				</div>
+				
+			</div>
+			
+			
+			<div id="menus_wrapper">
+				<div id="main_menu">
+					<ul>
+					    <li><a href="viewusers.xhtml"><span><span>VIEW USER &nbsp;&nbsp;&nbsp;|</span></span></a></li>
+                        <li><a href="createusers.xhtml"><span><span>CREATE USERS &nbsp;&nbsp;&nbsp;|</span></span></a></li>
+                        <!-- <li><a href="#"><span><span>EDIT USER &nbsp;&nbsp;&nbsp;|</span></span></a></li>
+                        <li><a href="#"><span><span>DELETE USER&nbsp;&nbsp;&nbsp;|</span></span></a></li> -->
+                         <li><a href="disableAccount.xhtml"><span><span>DISABLE ACCOUNT &nbsp;&nbsp;&nbsp;|</span></span></a></li>
+                        <!--  <li><a href="#"><span><span>VIEW ACTIVE LOGIN &nbsp;&nbsp;&nbsp;|</span></span></a></li>
+                         <li><a href="../register.xhtml"><span><span>REGISTRATION &nbsp;&nbsp;&nbsp;|</span></span></a></li>
+                          -->
+                       
+					</ul>
+				</div>
+				
+			</div>
+			
+		
+		</h:form>
+	
+</ui:composition>

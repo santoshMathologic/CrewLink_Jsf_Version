@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 5, 2015 11:07:20 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.DrivingDuty" table="driving_duty" catalog="crewlinkssystem">
+        <id name="id" type="java.lang.Long">
+            <column name="Id" />
+            <generator class="identity" />
+        </id>
+        <property name="trainNo" type="string">
+            <column name="`Train No`" length="30" />
+        </property>
+        <property name="fromStation" type="string">
+            <column name="From_Station" length="5" />
+        </property>
+        <property name="toStation" type="string">
+            <column name="To_Station" length="5" />
+        </property>
+        <property name="departureTime" type="timestamp">
+            <column name="Departure_Time" length="0" />
+        </property>
+        <property name="arrivalTime" type="timestamp">
+            <column name="Arrival_Time" length="0" />
+        </property>
+        <property name="signOnTime" type="timestamp">
+            <column name="SignOn_Time" length="0" />
+        </property>
+        <property name="signOffTime" type="timestamp">
+            <column name="SignOff_Time" length="0" />
+        </property>
+        <property name="availabilityTime" type="timestamp">
+            <column name="Availability_Time" length="0" />
+        </property>
+        <property name="distance" type="java.lang.Long">
+            <column name="distance" />
+        </property>
+    </class>
+</hibernate-mapping>

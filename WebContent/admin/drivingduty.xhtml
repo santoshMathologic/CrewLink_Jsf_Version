@@ -1,0 +1,367 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="adminTemplate.xhtml">
+
+	<ui:define name="body">
+
+
+
+		<div class="container">
+			<div class="content" style="height: 1024px">
+			<h:form id="viewform"  prependId="false">
+				<p:growl autoUpdate="true" id="viewGrowl" />
+				    
+				    
+				    
+				     <h1><u>Create Driving Duty from Driving Section and Pilot Journey</u></h1>
+				    
+					<p:commandButton value="Search"
+						action="#{drivingbean.multipleSearch}" update="dsection" />
+					<p:commandButton value="Refresh"
+						action="drivingduty.xhtml?faces-redirect=true" />
+				    
+				  <!--   <p:remoteCommand name="updateTable" update="dsection"/> -->
+				  
+			
+				    
+				    <p:dataTable value="#{drivingbean.loadCrewChangeList}" id="dsection" var="rowvar" rows="10" paginator="true" 
+				    paginatorPosition="bottom" paginatorAlwaysVisible="false"     
+				    emptyMessage="No Records Founds " lazy="false" rowKey="#{rowvar}"  rowIndexVar="rowindex"
+                    >
+                    <p:ajax event="page" listener="#{drivingbean.updatedComponents}"/>
+				    
+				    
+				    <p:column headerText="TrainNo">
+				    #{rowvar.trainNo}
+				    </p:column>
+				    
+				      <p:column headerText="From" width="10%">
+							<f:facet name="header">
+                    From
+				      			 <p:selectOneMenu value="#{drivingbean.selectedFrom}"
+									id="from" effect="fade" var="selectvar" style="width:100px"
+									filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{drivingbean.selectlistfrom_station}"
+										var="fromvar" itemLabel="#{fromvar.label}"
+										itemValue="#{fromvar.value}" />
+
+									<!-- <p:ajax event="change" update="@this" /> -->
+								</p:selectOneMenu>
+
+
+								<p:selectOneMenu value="#{drivingbean.selectedFrom1}"
+									effect="fade" var="selectvar" style="width:100px" filter="true"
+									filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{drivingbean.selectlistfrom_station}"
+										var="tovar" itemLabel="#{tovar.label}"
+										itemValue="#{tovar.value}" />
+								</p:selectOneMenu>
+							</f:facet>          
+                               
+                                  
+                                   #{rowvar.fromStation}
+                                
+				                   </p:column>
+
+					<p:column headerText="To" width="10%">
+
+							<f:facet name="header">
+                    		To
+                     			 <p:selectOneMenu value="#{drivingbean.selectedTo}"
+									effect="fade" var="selectvar" style="width:100px" filter="true"
+									filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{drivingbean.to_stationlist}" var="car"
+										itemLabel="#{car.label}" itemValue="#{car.value}" />
+								</p:selectOneMenu>
+								<p:selectOneMenu value="#{drivingbean.selectedTo1}"
+									effect="fade" var="selectvar" style="width:100px" filter="true"
+									filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{drivingbean.to_stationlist}" var="car"
+										itemLabel="#{car.label}" itemValue="#{car.value}" />
+								</p:selectOneMenu>
+						</f:facet>
+                    
+						#{rowvar.toStation}
+						</p:column>
+                    
+                    <p:column headerText="departure">
+                    #{rowvar.departure.toString().substring(10,16)}
+                    </p:column>
+                    
+                      <p:column headerText="Arrival">
+                    #{rowvar.arrival.toString().substring(10,16)}
+                    </p:column>
+                    
+                      <p:column filterBy="#{rowvar.crewBase}"  headerText="CrewBase" filterFunction="#{drivingbean.filterByCrewBaseAndType}" filterStyle="width:50px;border-radius:0px" width="5%">
+						<h:outputText value="#{rowvar.crewBase}" />
+						
+						<p:commandLink oncomplete="PF('editDlg').show();" action="#{drivingbean.updateCrewBase(rowvar.id)}" update=":crewbaseform">
+						  <h:graphicImage value="/admin/images/pen.png" width="12" height="12" style="margin-left:14px">
+						  <!-- <f:param name="TRAINNO" value="#{rowvar.trainNo}"/> -->
+						  
+						  <!--  <f:setPropertyActionListener value="#{rowvar.id}"
+                                                    target="#{drivingbean.editedId}" /> -->
+						  </h:graphicImage>
+						</p:commandLink>
+					</p:column>
+
+					<p:column filterBy="#{rowvar.crewType}" headerText="CrewType"
+						filterStyle="width:50px;border-radius:0px" width="5%" filterFunction="#{drivingbean.filterByCrewBaseAndType}">
+						<h:outputText value="#{rowvar.crewType}" />
+					<p:commandLink  oncomplete="PF('editDlgCrewType').show();" action="#{drivingbean.updateCrewType(rowvar.id)}" update=":viewform:dsection :crewTypeform">
+                        <h:graphicImage value="/admin/images/pen.png" width="12" height="12" style="margin-left:14px" />
+                        </p:commandLink>	
+					</p:column>
+                    
+                      <p:column headerText="KM">
+                    #{rowvar.kilometer}
+                    </p:column>
+                    
+                   <p:column headerText="Hours">
+                    #{rowvar.hour}
+                    </p:column>
+                    
+                    
+                    
+                   <p:column>
+                   
+                   <f:facet name="header">
+                   
+                   <h:outputText value="Sequence" />
+                   </f:facet>
+                  <p:inputText value="#{drivingbean.drivingsectionsequence}" id="sequenceinput" size="4">
+                   <p:ajax  listener="#{drivingbean.saveInMap(rowvar.id)}" update=":viewform:viewGrowl"/>
+                   <f:validator validatorId="fieldValidator"/>                   
+                   </p:inputText>
+                  
+                    </p:column>
+                   
+                   
+<p:column headerText="Status">
+<f:facet name="header">
+Status
+<p:selectOneMenu value="#{drivingbean.selectedStatus}" style="width:90px">
+<f:selectItem itemValue="" itemLabel="-----select------"/>
+<f:selectItem itemValue="All" itemLabel="All"/>
+<f:selectItem itemValue="DutyCreated" itemLabel="Duty Created"/>
+<f:selectItem itemValue="DutyNotCreated" itemLabel="Duty Not Created"/>
+<p:ajax listener="#{drivingbean.dutyStatusSearch}" update=":viewform:dsection" />
+</p:selectOneMenu>
+</f:facet>
+<p:outputLabel value="#{rowvar.status=='true'? 'Duty Created' : 'Duty Not created'}" style="color: green;font-weight:bold"/>
+</p:column>
+				    </p:dataTable>
+				    
+		
+			    
+				    
+				    
+				    <br/>
+				    <h1>Pilot Journey</h1>
+				    
+				    <p:dataTable value="#{drivingbean.pilotJourneylist}" var="rowvar" id="pilot" rows="10" paginator="true" 
+				    paginatorPosition="top" filteredValue="#{drivingbean.filteredpilotTableList}">
+				    
+                    <p:column headerText="Travel Source" style="width:50px;">
+                    #{rowvar.sourceOfTravel}
+                    </p:column>
+                    
+                        <p:column filterBy="#{rowvar.fromStation}" headerText="From" filterStyle="width:50px;border-radius:0px" width="5%">
+#{rowvar.fromStation}
+</p:column>
+
+					<p:column filterBy="#{rowvar.toStation}" headerText="To" filterStyle="width:50px;border-radius:0px" width="5%">
+#{rowvar.toStation}
+</p:column>
+                    
+                    <p:column headerText="departure" width="5%">
+                    #{rowvar.departureTime}
+                    </p:column>
+                    
+                    <p:column headerText="Arrival" width="5%">
+                    #{rowvar.arrivalTime}
+                    </p:column>
+                   
+                   <p:column headerText="Km" width="2%">
+                    #{rowvar.km}
+                    </p:column>
+                   
+                   
+                    <p:column headerText="sequence" width="8%">
+                    <p:inputText value="#{drivingbean.pilotjourneysequence}"  size="3">
+                    <p:ajax listener="#{drivingbean.getUniqueIdFromPilotTable(rowvar.id)}" update=":viewform:viewGrowl"/>
+                      <f:validator validatorId="fieldValidator"/> 
+                    </p:inputText>
+                    </p:column>
+                   
+                   <p:column headerText="option" width="5%">
+                   <p:commandLink action="#{drivingbean.removePilotJourney}" update=":viewform">
+                   <f:param name="QUERYPARAM" value="#{rowvar.id}"></f:param>
+                   <h:graphicImage value="/admin/images/deleteicon.png" width="12" height="12"/>
+                   </p:commandLink>
+                   
+                   &nbsp;
+                  
+                   <p:commandLink oncomplete="PF('editabledlg').show();" action="#{drivingbean.updatePilot}" update=":editForm">
+                   <h:graphicImage value="/admin/images/pen.png" width="12" height="12"/>
+                   <f:param name="QUERYPARAM" value="#{rowvar.id}"></f:param>
+                   </p:commandLink>
+                   
+                   
+                   
+                   
+                    </p:column>
+                   
+                   
+                    </p:dataTable>
+				  
+				  <p:commandButton value="Generate" action="#{drivingbean.generate}" process="@this" >
+				   <p:resetInput target=":viewform:dsection" />
+				  </p:commandButton>  
+				  <p:commandButton value="Add Pilot" action="#{drivingbean.addPilot}" update=":pilotdlgid" process="@this" />  
+                  <p:commandButton action="OneDrivingSection_and_OneDrivingDuty.xhtml?faces-redirect=true" value="OneDrivingSection=OneDrivingDuty" />    
+			
+				    
+						</h:form>
+						
+						
+						<p:dialog id="editable" widgetVar="editabledlg" modal="true" resizable="false" width="350" height="260" showEffect="fade" hideEffect="fade">
+						<h:form id="editForm">
+						<h:panelGrid columns="2" cellpadding="5" cellspacing="5">
+						 <p:outputLabel value="Source of Travel"/>
+						 <p:inputText value="#{drivingbean.pilotjourneyupdate.sourceOfTravel}"/>
+						 <p:outputLabel value="From"/>
+                         
+                          <p:selectOneMenu id="to" value="#{drivingbean.pilotjourneyupdate.fromStation}">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{drivingbean.editFromSelectone}" var="rowvar" itemLabel="#{rowvar}" itemValue="#{rowvar}" />
+                         </p:selectOneMenu>
+                         
+						  <p:outputLabel value="To"/>
+						  <p:selectOneMenu id="from" value="#{drivingbean.pilotjourneyupdate.toStation}">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{drivingbean.editToSelectone}" var="rowvar" itemLabel="#{rowvar}" itemValue="#{rowvar}" />
+                         </p:selectOneMenu>
+						 
+						 
+						 <p:outputLabel value="Departure"/>
+                         <p:inputText value="#{drivingbean.pilotjourneyupdate.departureTime}"/>
+                         <p:outputLabel value="Arriaval"/>
+                         <p:inputText value="#{drivingbean.pilotjourneyupdate.arrivalTime}"/>
+                        <p:commandButton value="Save" action="#{drivingbean.updateToDB}" update=":viewform:pilot" oncomplete="PF('editabledlg').hide();"/>
+                        <p:commandButton value="Cancel" onclick="PF('editabledlg').hide();"/>
+                        </h:panelGrid>
+                        
+						
+						</h:form>
+						</p:dialog>
+						
+						
+						
+						
+						<p:dialog widgetVar="addPilotWdgt" header="Adding Pilot" id="pilotdlgid" modal="true" resizable="false">
+						<h:form id="pilotform">
+						<h:panelGrid columns="2" cellpadding="5" cellspacing="5">
+						
+						Traviling Source
+						<p:inputText value="#{drivingbean.pTravelingSource}"/>
+						
+						
+						<p:outputLabel value="From"/>
+						  <!-- <p:selectOneMenu id="to" value="#{drivingbean.pFrom_Station}">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{drivingbean.editFromSelectone}" var="rowvar" itemLabel="#{rowvar}" itemValue="#{rowvar}" />
+                         </p:selectOneMenu> -->
+                         
+                         <p:inputText value="#{drivingbean.pFrom_Station}"/>
+						
+                       <!--  <p:inputText value="#{drivingbean.pFrom_Station}"/> -->
+                        
+                        
+                        
+                         <p:outputLabel value="To"/>
+                          <!-- <p:selectOneMenu id="from" value="#{drivingbean.pTo_Station}">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{drivingbean.editToSelectone}" var="rowvar" itemLabel="#{rowvar}" itemValue="#{rowvar}" />
+                         </p:selectOneMenu> -->
+                         
+                         <p:inputText value="#{drivingbean.pTo_Station}"/>
+                        
+                        
+                        
+                        <p:outputLabel value="Departure (HH:MM)"/> 
+                        <p:inputText value="#{drivingbean.pDeparture}"/> 
+                        
+                        
+                        <p:outputLabel value="Arrival (HH:MM)"/>
+                        <p:inputText value="#{drivingbean.pArrival}"/>
+                        
+                         KM
+                        <p:inputText value="#{drivingbean.KM}"/>
+                        
+                        
+                        <p:commandButton value="Save" action="#{drivingbean.savePilotDB}" update=":viewform:pilot :pilotdlgid"/>
+                        <p:commandButton value="Cancle" onclick="PF('addPilotWdgt').hide()"/>
+						
+						</h:panelGrid>
+						</h:form>
+						</p:dialog>
+						
+						
+						
+						
+						
+						
+						
+						
+					
+					<p:dialog widgetVar="editDlg" width="240" height="50" resizable="false" modal="true" id="editCrewBaseId">
+                     <h:form id="crewbaseform">
+                        <h:panelGrid columns="3" cellpadding="5" cellspacing="5">
+                        CrewBase
+                        <h:inputText value="#{drivingbean.crewchangedrivingsection.crewBase}" style="width:50px" />
+                        <p:commandButton value="save" action="#{drivingbean.saveUpdatedCrewBase}" update=":viewform:dsection"/>
+                         </h:panelGrid>
+                        </h:form>
+        
+                    </p:dialog> 
+                    
+                    
+                    <p:dialog widgetVar="editDlgCrewType" width="240" height="50" resizable="false" modal="true" id="editCrewTypeId">
+                     <h:form id="crewTypeform">
+                        <h:panelGrid columns="3" cellpadding="5" cellspacing="5">
+                        CrewBase
+                        <h:inputText value="#{drivingbean.crewchangedrivingsection.crewType}" style="width:50px"  />
+                        <p:commandButton value="save" action="#{drivingbean.saveUpdatedCrewType}" update=":viewform:dsection"/>
+                         </h:panelGrid>
+                        </h:form>
+        
+                    </p:dialog> 
+                    
+                    
+                     <p:dialog widgetVar="errorRRWdgt" header="Status" modal="true">
+				<h:form id="error1">
+				<h3>Please Enter Sequence Number</h3>
+				<p:commandButton value="Close" oncomplete="PF('errorRRWdgt').hide();">
+				
+				</p:commandButton>
+				
+				</h:form>
+				</p:dialog>
+				
+                    
+					
+					
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

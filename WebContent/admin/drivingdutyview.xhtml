@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="adminTemplate.xhtml">
+
+	<ui:define name="body">
+
+		<div class="container">
+			<div class="content" style="height: 1024px">
+				<h:form id="viewform4">
+					<p:growl id="viewGrowl" />
+					
+					  <h1><u>Analyze Driving Duties</u></h1>
+				
+				
+				  <p:commandButton value="Search" action="#{viewdrivingduty.searchDrivingDuty}" update="drivingdutyId"  />
+                  <p:commandButton value="Refresh" action="drivingdutyview.xhtml?faces-redirect=true" />
+                  
+                  
+				<p:dataTable id="drivingdutyId"
+					value="#{viewdrivingduty.drivingdutyview}" var="rowvar"
+					paginatorAlwaysVisible="false" rows="20" paginator="true"
+					paginatorPosition="top" widgetVar="crewTable" rowKey="#{rowvar.id}"
+					selection="#{viewdrivingduty.selectionList}"
+					filteredValue="#{drivingbean.filteredCrewChangeList5}"
+					style="text-align:center;">
+					
+					 <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+				
+				 
+					<p:column headerText="Train No" style="width:150px;" >
+					#{rowvar.trainNo}
+					</p:column>
+
+	
+	
+	
+	                   <p:column  headerText="From" width="10%">
+					   <f:facet name="header">
+                        From
+                       <p:selectOneMenu value="#{viewdrivingduty.selectedFrom}"  
+                         id="from"
+                         effect="fade" 
+                         var="selectvar" 
+                         style="width:100px" 
+                         filter="true" 
+                         filterMatchMode="startsWith">
+                           <f:selectItem itemLabel="Select One" itemValue="" />
+                             <f:selectItems value="#{viewdrivingduty.selectlistfrom_station}" var="fromvar" 
+                                            itemLabel="#{fromvar.label}" itemValue="#{fromvar.value}" />
+                                  
+                                
+                             </p:selectOneMenu>
+                             
+                             
+                         <p:selectOneMenu value="#{viewdrivingduty.selectedFrom1}"  
+                         effect="fade" 
+                         var="selectvar" 
+                         style="width:100px" 
+                         filter="true" 
+                         filterMatchMode="startsWith">
+                           <f:selectItem itemLabel="Select One" itemValue="" />
+                             <f:selectItems value="#{viewdrivingduty.selectlistfrom_station}" var="tovar" 
+                                            itemLabel="#{tovar.label}" itemValue="#{tovar.value}" />
+                                 </p:selectOneMenu> 
+                                 </f:facet>          
+                               
+                                  
+                                   <h:outputText value="#{rowvar.fromStation}" />
+                                
+                                   </p:column>
+	
+	
+	
+						<p:column  headerText="To" width="10%">
+						 <f:facet name="header">
+                       To  
+                      <p:selectOneMenu value="#{viewdrivingduty.selectedTo}"  
+                         effect="fade" 
+                         var="selectvar" 
+                         style="width:100px" 
+                         filter="true" 
+                         filterMatchMode="startsWith"
+                         
+                         >
+                           <f:selectItem itemLabel="Select One" itemValue="" />
+                             <f:selectItems value="#{viewdrivingduty.to_stationlist}" var="car" 
+                                            itemLabel="#{car.label}" itemValue="#{car.value}" />
+                             </p:selectOneMenu>
+                         <p:selectOneMenu value="#{viewdrivingduty.selectedTo1}"  
+                         effect="fade" 
+                         var="selectvar" 
+                         style="width:100px" 
+                         filter="true" 
+                         filterMatchMode="startsWith"
+                         >
+                           <f:selectItem itemLabel="Select One" itemValue="" />
+                             <f:selectItems value="#{viewdrivingduty.to_stationlist}" var="car" 
+                                            itemLabel="#{car.label}" itemValue="#{car.value}" />
+                             </p:selectOneMenu>
+                    		</f:facet>
+
+							<h:outputText value="#{rowvar.toStation}" />
+							</p:column>
+
+					<p:column headerText="Departure">
+							#{rowvar.departure.toString().substring(10,16)}
+					</p:column>
+						<p:column headerText="Arrival">
+#{rowvar.arrival.toString().substring(10,16)}
+</p:column>
+			              <p:column filterBy="#{rowvar.crewBase}"  headerText="CrewBase" filterStyle="width:50px;border-radius:0px" width="5%" filterFunction="#{viewdrivingduty.filterByName}">
+						<h:outputText value="#{rowvar.crewBase}" />
+					</p:column>
+
+					<p:column filterBy="#{rowvar.crewType}" headerText="CrewType"
+						filterStyle="width:50px;border-radius:0px" width="5%" filterFunction="#{viewdrivingduty.filterByName}">
+						<h:outputText value="#{rowvar.crewType}" />
+					</p:column>
+			
+						<p:column headerText="SignOn">
+							<p:outputLabel value="#{rowvar.signonTime.toString().substring(10,16)}"></p:outputLabel>
+						</p:column>
+
+						<p:column headerText="SignOff">
+							<p:outputLabel value="#{rowvar.signoffTime.toString().substring(10,16)}"></p:outputLabel>
+						</p:column>
+
+                        <p:column headerText="HQ Rest">
+                            <p:outputLabel value="#{rowvar.hqRest/60}"></p:outputLabel>
+                        </p:column>
+                        
+                        <p:column headerText="OS Rest">
+                            <p:outputLabel value="#{rowvar.osRest/60}"></p:outputLabel>
+                        </p:column>
+                        
+
+						<!-- <p:column headerText="Duty Hour">
+							<p:outputLabel value="#{rowvar.dutyHours}"></p:outputLabel>
+						</p:column> -->
+
+						<p:column headerText="AvailablityTime">
+							<p:outputLabel value="#{rowvar.availability}"></p:outputLabel>
+						</p:column>
+
+
+						<p:column headerText="Distance">
+#{rowvar.km}
+</p:column>
+				</p:dataTable><br/>
+				<!-- onclick="if (!confirm('Are you sure?')) return false" -->
+	<p:commandButton value="Delete" action="#{viewdrivingduty.delete}" icon="ui-icon-trash" title="Delete" />
+	<p:commandButton value="View" action="#{viewdrivingduty.view}"  title="view" update=":informationForm" oncomplete="PF('trainInfoWdgt').show()" icon="ui-icon-search"/>		
+			    
+			    
+			    </h:form>
+			  
+			        <p:dialog widgetVar="trainInfoWdgt" id="drivingdutyIdentifier" header="DrivingDuties" modal="true" resizable="false">
+			        <h:form id="informationForm">
+			        
+			    		<p:dataTable id="trainInfo" value="#{viewdrivingduty.listCrewChange}" var="list">
+			    					<p:column headerText="Train No">
+			    						#{list.trainNo}
+			    					</p:column>
+			    					
+			    					<p:column headerText="From Station">
+			    						#{list.fromStation}
+			    					</p:column>
+			    					
+			    					<p:column headerText="To Station">
+			    						#{list.toStation}
+			    					</p:column>
+			    					
+			    					<p:column headerText="Departure">
+			    						#{list.departure.toString().substring(10,16)}
+			    					</p:column>
+			    					
+			    					<p:column headerText="Arrival">
+			    						#{list.arrival.toString().substring(10,16)}
+			    					</p:column>
+			    					
+			    					<p:column headerText="Crew Base">
+			    						#{list.crewBase}
+			    					</p:column>
+			    					
+			    					<p:column headerText="KM">
+			    						#{list.kilometer}
+			    					</p:column>
+			    					
+			    					<!-- <p:column headerText="KM">
+			    						#{list.hour}
+			    					</p:column> -->
+			    					
+			    					
+			    		</p:dataTable>
+			    		
+			    		<h3>Pilot Tables </h3>
+			    		<p:dataTable id="pilotInfo" value="#{viewdrivingduty.listPilotJourney}" var="listpilot">
+			    				
+			    					<p:column headerText="Train No">
+			    						#{listpilot.sourceOfTravel}
+			    					</p:column>
+			    					
+			    					<p:column headerText="From Station">
+			    						#{listpilot.fromStation}
+			    					</p:column>
+			    					
+			    					<p:column headerText="To Station">
+			    						#{listpilot.toStation}
+			    					</p:column>
+			    					
+			    					<p:column headerText="Departure">
+			    						#{listpilot.departureTime}
+			    					</p:column>
+			    					
+			    					<p:column headerText="Arrival">
+			    						#{listpilot.arrivalTime}
+			    					</p:column>
+			    					
+			    					<p:column headerText="KM">
+			    						#{listpilot.km}
+			    					</p:column>
+			    					
+			    			
+			    		</p:dataTable>
+			    </h:form>
+			    </p:dialog>
+			   <p:dialog header="Driving Duty Deleted" widgeVar="showRowDetails" modal="true" closable="true" closeOnEscape="false"  resizable="false" showEffect="fade">
+			   					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<p:commandButton value="OK" action="viewdrivingduty.xhtml?faces-redirect=true" />
+			    </p:dialog>		
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

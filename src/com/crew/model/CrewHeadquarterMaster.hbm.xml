@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 28, 2015 3:26:24 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.CrewHeadquarterMaster" table="crew_headquarter_master">
+        <id name="id" type="java.lang.Long">
+            <column name="Id" />
+            <generator class="identity" />
+        </id>
+        <property name="crewBase" type="string">
+            <column name="`Crew Base`" length="7" />
+        </property>
+        <property name="dmeNo" type="java.lang.Integer">
+            <column name="DME_No" />
+        </property>
+        <property name="dmeKm" type="java.lang.Integer">
+            <column name="DME_KM" />
+        </property>
+        <property name="acmeNo" type="java.lang.Integer">
+            <column name="ACME_No" />
+        </property>
+        <property name="acmeKm" type="java.lang.Integer">
+            <column name="ACME_KM" />
+        </property>
+        <property name="acpNo" type="java.lang.Integer">
+            <column name="ACP_No" />
+        </property>
+        <property name="acpKm" type="java.lang.Integer">
+            <column name="ACP_KM" />
+        </property>
+        <property name="dpNo" type="java.lang.Integer">
+            <column name="DP_No" />
+        </property>
+        <property name="dpKm" type="java.lang.Integer">
+            <column name="DP_KM" />
+        </property>
+        <property name="emuNo" type="java.lang.Integer">
+            <column name="EMU_No" />
+        </property>
+        <property name="emuKm" type="java.lang.Integer">
+            <column name="EMU_KM" />
+        </property>
+        <property name="dmuNo" type="java.lang.Integer">
+            <column name="DMU_No" />
+        </property>
+        <property name="dmuKm" type="java.lang.Integer">
+            <column name="DMU_KM" />
+        </property>
+        <property name="memuNo" type="java.lang.Integer">
+            <column name="MEMU_No" />
+        </property>
+        <property name="memuKm" type="java.lang.Integer">
+            <column name="MEMU_KM" />
+        </property>
+        <property name="acndNo" type="java.lang.Integer">
+            <column name="ACND_No" />
+        </property>
+        <property name="acndKm" type="java.lang.Integer">
+            <column name="ACND_KM" />
+        </property>
+        <property name="dndNo" type="java.lang.Integer">
+            <column name="DND_No" />
+        </property>
+        <property name="dndKm" type="java.lang.Integer">
+            <column name="DND_KM" />
+        </property>
+        <property name="others1No" type="java.lang.Integer">
+            <column name="Others1_No" />
+        </property>
+        <property name="others1Km" type="java.lang.Integer">
+            <column name="Others1_KM" />
+        </property>
+        <property name="others2No" type="java.lang.Integer">
+            <column name="Others2_No" />
+        </property>
+        <property name="others2Km" type="java.lang.Integer">
+            <column name="Others2_KM" />
+        </property>
+        <property name="timeGivenforSignOn" type="java.lang.Integer">
+            <column name="TimeGivenforSignOn" />
+        </property>
+        <property name="timeGivenforSignOff" type="java.lang.Integer">
+            <column name="TimeGivenforSignOff" />
+        </property>
+    </class>
+</hibernate-mapping>

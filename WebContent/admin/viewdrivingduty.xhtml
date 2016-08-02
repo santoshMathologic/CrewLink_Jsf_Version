@@ -1,0 +1,565 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="adminTemplate.xhtml">
+
+	<ui:define name="body">
+
+
+		<style type="text/css">
+.indent-1 {
+	float: left;
+}
+
+.ui-widget-content {
+	background-color: white;
+}
+
+.indent-1 section {
+	width: 50%;
+	float: left;
+}
+
+.indent-2 {
+	float: left;
+}
+
+.indent-2 section {
+	width: 20%;
+	float: right;
+	margin-left: -82px;
+}
+
+div.vertical-line {
+	width: 1px; /* Line width */
+	background-color: #FF0040; /* Line color */
+	height: 100%; /* Override in-line if you want specific height. */
+	float: left; /* Causes the line to float to left of content. 
+    You can instead use position:absolute or display:inline-block
+    if this fits better with your design */
+}
+
+.created {
+	color: green;
+	font-weight: bold;
+}
+
+.notcreated {
+	color: red;
+	font-weight: bold;
+}
+
+.test {
+	
+}
+</style>
+
+
+
+		<div class="container">
+			<div class="content" style="height: 1024px">
+				<h:form id="viewform4">
+					<p:growl id="viewGrowl" />
+
+					<h1>
+						<u>Create Driving Duties to Round Trips</u>
+					</h1>
+					<p:commandButton value="Search"
+						action="#{drivingbean.viewDrivingDutymultipleSearch}"
+						update="driDutyId viewGrowl" />
+					<!-- <p:commandButton value="Refresh" action="viewdrivingduty.xhtml?faces-redirect=true" /> -->
+					<p:commandButton value="Round Trip Suggestion"
+						action="#{drivingbean.roundTripSuggestions()}"
+						update=":viewform4 :crew:rrlist1 :crew:rrlist2 :crew:from :crew:to :crew:from1 :crew:to1" />
+
+
+					<p:dataTable id="driDutyId"
+						value="#{drivingbean.listDrivingDutyView}" var="rowvar"
+						paginatorAlwaysVisible="false" rows="10" paginator="true"
+						paginatorPosition="top" widgetVar="crewTable"
+						rowKey="#{rowvar.id}" style="text-align:center;" lazy="false"
+						
+						rowIndexVar="rowindex">
+						
+						<p:ajax event="page"
+							listener="#{drivingdutytoroundtrip.updatedComponentRoundTrips}" />
+
+						<p:column headerText="Train No" style="width:150px;">
+                       			 #{rowvar.trainNo}
+						</p:column>
+						<p:column headerText="From" width="8%">
+							<f:facet name="header">
+                        From
+                        <p:selectOneMenu
+									value="#{drivingbean.selectedviewFrom}" id="from" effect="fade"
+									var="selectvar" style="width:80px" filter="true"
+									filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems
+										value="#{drivingbean.selectListviewFrom_station}" var="varrow"
+										itemLabel="#{varrow.label}" itemValue="#{varrow.value}" />
+
+									<!--   <p:ajax event="change" update="@this"/>  -->
+								</p:selectOneMenu>
+								<p:selectOneMenu value="#{drivingbean.selectedviewFrom1}"
+									id="from1" effect="fade" var="selectvar" style="width:80px"
+									filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems
+										value="#{drivingbean.selectListviewFrom_station}" var="varrow"
+										itemLabel="#{varrow.label}" itemValue="#{varrow.value}" />
+
+									<!-- <p:ajax event="change" update="@this"/> -->
+								</p:selectOneMenu>
+							</f:facet>
+							<h:outputText value="#{rowvar.fromStation}" />
+						</p:column>
+						<p:column headerText="To" width="8%">
+							<f:facet name="header">To
+                        <p:selectOneMenu
+									value="#{drivingbean.selectedviewTo}" id="To" effect="fade"
+									style="width:80px" filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{drivingbean.selectListviewTo_station}"
+										var="varrow" itemLabel="#{varrow.label}"
+										itemValue="#{varrow.value}" />
+								</p:selectOneMenu>
+								<p:selectOneMenu value="#{drivingbean.selectedviewTo1}" id="To1"
+									effect="fade" style="width:80px" filter="true"
+									filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{drivingbean.selectListviewTo_station}"
+										var="varrow" itemLabel="#{varrow.label}"
+										itemValue="#{varrow.value}" />
+								</p:selectOneMenu>
+							</f:facet>
+							<h:outputText value="#{rowvar.toStation}" />
+						</p:column>
+
+						<p:column headerText="Departure">
+							#{rowvar.departure.toString().substring(10,16)}
+						</p:column>
+						<p:column headerText="Arrival">
+							#{rowvar.arrival.toString().substring(10,16)}
+						</p:column>
+
+						<p:column filterBy="#{rowvar.crewBase}" headerText="Base"
+							filterStyle="width:56px;border-radius:0px" width="5%"
+							filterFunction="#{drivingbean.filterByCrewBaseAndType}">
+							<h:outputText value="#{rowvar.crewBase}" />
+						</p:column>
+
+						<p:column filterBy="#{rowvar.crewType}" headerText="Type"
+							filterStyle="width:56px;border-radius:0px" width="5%"
+							filterFunction="#{drivingbean.filterByCrewBaseAndType}">
+							<h:outputText value="#{rowvar.crewType}" />
+						</p:column>
+
+
+
+
+
+						<p:column headerText="On">
+							<p:outputLabel
+								value="#{rowvar.signonTime.toString().substring(10,16)}"></p:outputLabel>
+						</p:column>
+
+						<p:column headerText="Off">
+							<p:outputLabel
+								value="#{rowvar.signoffTime.toString().substring(10,16)}"></p:outputLabel>
+						</p:column>
+
+
+
+						<!-- <p:column headerText="Duty Hour">
+							<p:outputLabel value="#{rowvar.dutyHours}"></p:outputLabel>
+						</p:column> -->
+
+						<p:column headerText="AvailablityTime">
+							<p:outputLabel value="#{rowvar.availability}"></p:outputLabel>
+						</p:column>
+
+
+						<p:column headerText="Distance">
+#{rowvar.km}
+</p:column>
+
+
+						<p:column headerText="Status" style="width:10%">
+							<f:facet name="header">
+Status
+								<p:selectOneMenu value="#{drivingbean.roundTripStatus}"
+									style="width:100px">
+									<f:selectItem itemValue="" itemLabel="-----select------" />
+									<f:selectItem itemValue="All" itemLabel="all" />
+									<f:selectItem itemValue="RoundTripcreated"
+										itemLabel="Round Trip created" />
+									<f:selectItem itemValue="RoundTripNotcreated"
+										itemLabel="Round Trip Not created" />
+									<p:ajax listener="#{drivingbean.roundTripStatusSearch}"
+										update=":viewform4:driDutyId" />
+								</p:selectOneMenu>
+							</f:facet>
+
+							<p:outputLabel
+								value="#{rowvar.status=='true'? 'Round Trip created' : 'Round Trip Not created'}"
+								styleClass="#{rowvar.status=='true'? 'created' : 'notcreated'}" />
+						</p:column>
+
+						<p:column headerText="Option" style="width:70px;">
+							<p:commandButton
+								actionListener="#{drivingbean.viewDrivingSectionsFromDrvingDuty(rowvar)}"
+								update=":viewform4 :test"
+								oncomplete="PF('trainInfoWdgt').show();" icon="ui-icon-search"
+								title="View">
+
+							</p:commandButton>
+
+							<p:commandButton
+								actionListener="#{drivingbean.delete}"
+								update=":viewform4:driDutyId" process="@this"
+								icon="ui-icon-trash" title="Delete"
+								onclick="if (!confirm('Are you sure?')) return false">
+							</p:commandButton>
+						</p:column>
+						<p:column headerText="sequence" width="6%">
+							<p:inputText
+								value="#{drivingdutytoroundtrip.drivingsectionsequence}"
+								size="3" id="foo">
+
+
+								<p:ajax
+									listener="#{drivingdutytoroundtrip.saveInMap(rowvar.id)}"
+									update=":viewform4:viewGrowl" />
+								<f:validator validatorId="fieldValidator" />
+							</p:inputText>
+						</p:column>
+
+
+					</p:dataTable>
+					<br />
+
+					<p:commandButton value="Generate Round Trips"
+						actionListener="#{drivingdutytoroundtrip.generateRoundTrips}"
+						 />
+				</h:form>
+				<p:dialog widgetVar="rrStatusDLg"
+					header="Round Trip Created Successfully" modal="true"
+					showEffect="fade" resizable="false">
+			    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	<p:commandButton value="Ok"
+						action="viewdrivingduty.xhtml?faces-redirect=true" />
+				</p:dialog>
+
+				<p:dialog widgetVar="trainInfoWdgt" id="test" header="drivingDuty"
+					modal="true" resizable="false">
+					<h:form id="trainWdgForm">
+						<p:dataTable id="trainInfo" value="#{drivingbean.listCrewChange}"
+							var="list">
+							<p:column headerText="Train No">
+			    						#{list.trainNo}
+			    					</p:column>
+
+							<p:column headerText="From Station">
+			    						#{list.fromStation}
+			    					</p:column>
+
+							<p:column headerText="To Station">
+			    						#{list.toStation}
+			    					</p:column>
+
+							<p:column headerText="Departure">
+			    						#{list.departure.toString().substring(10,16)}
+			    					</p:column>
+
+							<p:column headerText="Arrival">
+			    						#{list.arrival.toString().substring(10,16)}
+			    					</p:column>
+
+							<p:column headerText="Crew Base">
+			    						#{list.crewBase}
+			    					</p:column>
+
+							<p:column headerText="KM">
+			    						#{list.kilometer}
+			    					</p:column>
+
+							<!-- <p:column headerText="KM">
+			    						#{list.hour}
+			    					</p:column> -->
+
+
+						</p:dataTable>
+
+
+						<h:panelGrid rendered="#{drivingbean.bPilottable eq 'true'}">
+							<h3>Pilot Tables</h3>
+						</h:panelGrid>
+						<p:dataTable id="pilotInfo"
+							value="#{drivingbean.listPilotJourney}" var="listpilot"
+							rendered="#{drivingbean.bPilottable eq 'true'}">
+
+							<p:column headerText="Train No">
+			    						#{listpilot.sourceOfTravel}
+			    					</p:column>
+
+							<p:column headerText="From Station">
+			    						#{listpilot.fromStation}
+			    					</p:column>
+
+							<p:column headerText="To Station">
+			    						#{listpilot.toStation}
+			    					</p:column>
+
+							<p:column headerText="Departure">
+			    						#{listpilot.departureTime}
+			    					</p:column>
+
+							<p:column headerText="Arrival">
+			    						#{listpilot.arrivalTime}
+			    					</p:column>
+
+							<p:column headerText="KM">
+			    						#{listpilot.km}
+			    					</p:column>
+						</p:dataTable>
+					</h:form>
+
+				</p:dialog>
+
+				<p:dialog widgetVar="acceptWdgt" id="one"
+					header="Round Trip Suggestion Result" modal="true">
+					<h:form id="crew">
+						<h4>Round Trip Suggestion Optimization Result</h4>
+						<section class="indent-1"> <section>
+						<div>
+							<h3>
+								<p:outputLabel value="#{drivingbean.selectedviewFrom}" id="from" />
+								To
+								<p:outputLabel value="#{drivingbean.selectedviewTo}" id="to" />
+								Crew
+							</h3>
+
+							<p:dataTable var="rr1" value="#{drivingbean.lstRRSuggestion1}"
+								id="rrlist1" style="text-align:center">
+								<p:column headerText="Train No1">
+			    						#{rr1.trainno1}
+			    					</p:column>
+								<p:column headerText="Train No2">
+			    						#{rr1.trainno2}
+			    					</p:column>
+
+								<p:column headerText="Access Running Room Rest">
+			    						#{rr1.accessRunningroomRest}
+			    					</p:column>
+
+								<p:column headerText="Choose">
+									<p:commandButton value="Choose"
+										action="#{drivingbean.choosedRowFromRoundTripSuggestion1(rr1.id)}"
+										update=":viewform4 :crew:rrlist1 :crew:rrlist2 :finalId"
+										style="width:70px">
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+						</div>
+						</section> <section>
+						<div style="margin-left: 10px">
+							<h3>
+								<p:outputLabel value="#{drivingbean.selectedviewTo}" id="to1" />
+								To
+								<p:outputLabel value=" #{drivingbean.selectedviewFrom} "
+									id="from1" />
+								Crew
+							</h3>
+
+							<p:dataTable var="rr2" value="#{drivingbean.lstRRSuggestion2}"
+								id="rrlist2" style="text-align:center">
+								<p:column headerText="Train No1">
+			    						#{rr2.trainno1}
+			    					</p:column>
+								<p:column headerText="Train No2">
+			    						#{rr2.trainno2}
+			    					</p:column>
+								<p:column headerText="Access Running Room Rest">
+			    						#{rr2.accessRunningroomRest}
+			    					</p:column>
+								<p:column headerText="Choose">
+									<p:commandButton value="Choose"
+										action="#{drivingbean.choosedRowFromRoundTripSuggestion2(rr2.id)}"
+										update=":viewform4 :crew:rrlist1 :crew:rrlist2"
+										style="width:70px">
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+
+						</div>
+						</section> </section>
+
+					</h:form>
+				</p:dialog>
+
+
+				<p:dialog widgetVar="RRFinalResultwdgt"
+					header="RoundTrip Final Output" modal="true"
+					styleClass="ui-widget-content " width="300">
+					<h:form id="finalId">
+
+
+						<h:panelGrid columns="2">
+							<p:outputLabel value="#{drivingbean.selectedviewFrom}"
+								id="rrfrom"></p:outputLabel> Crew
+                			</h:panelGrid>
+						<p:dataTable
+							value="#{drivingbean.mapDeletedRRSuggestion1.entrySet()}"
+							var="productEntry" id="del1">
+							<p:column>
+								<h:outputText value="#{productEntry.key}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{productEntry.value}" />
+							</p:column>
+						</p:dataTable>
+
+						<h:panelGrid columns="2">
+							<p:outputLabel value="#{drivingbean.selectedviewTo}" id="rrto"></p:outputLabel> Crew
+                	</h:panelGrid>
+						<p:dataTable
+							value="#{drivingbean.mapDeletedRRSuggestion2.entrySet()}"
+							var="productEntry" id="del2">
+							<p:column>
+								<h:outputText value="#{productEntry.key}" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{productEntry.value}" />
+							</p:column>
+						</p:dataTable>
+
+					</h:form>
+
+				</p:dialog>
+
+
+
+				<p:dialog id="test12" widgetVar="roundTripInfoWdgt"
+					header="Round Trip Information" modal="true" width="1000">
+					<h:form>
+						<section class="indent-1" style="margin-left: 10%;"> <section>
+						<div>
+							<h:panelGrid columns="4" style="margin-left: 40px;">
+								<h:inputText value="#{drivingbean.selectedviewFrom}" id="from1"
+									style="width:34px" disabled="true">
+									<f:ajax listener="#{drivingbean.fromDisplay()}" />
+								</h:inputText>
+								<!-- <h:inputText value="#{drivingbean.iNumberOfSourceCrew}">
+                                <f:ajax event="change" listener="#{drivingbean.calToInputBox}" render="three"/>
+                            </h:inputText> -->
+								<h:outputLabel value="Crew" />
+								<!-- <h:outputLabel value="Number of" />-->
+								<!--    <h:inputText value="#{drivingbean.selectedviewTo}" id="to1"
+                                    style="width:34px" disabled="true">
+                                    <f:ajax listener="#{drivingbean.toDisplay()}" />
+                                </h:inputText>
+                             -->
+								<!-- <h:outputLabel value="Crew" />
+                            <h:inputText value="#{drivingbean.iNumberOfDestinationCrew}" id="three" />  -->
+							</h:panelGrid>
+							<p:dataTable value="#{drivingbean.listTrainNumbersFinalFirst}"
+								var="key" style="width:40%">
+								<p:column headerText="Train No">
+                                        #{key}
+                                    </p:column>
+
+
+							</p:dataTable>
+						</div>
+						</section> <section> <p:dataTable
+							value="#{drivingbean.listTrainNumbersFinalTo}" var="key"
+							style="width:40%;margin-top:16%;margin-left:-30%;">
+							<p:column headerText="Train No">
+                                        #{key}
+                                    </p:column>
+						</p:dataTable> </section> </section>
+
+
+
+
+
+						<div class="vertical-line"
+							style="height: 175px; margin-left: 42%; margin-top: -19%;" />
+
+
+						<h:panelGrid columns="4"
+							style="margin-left:50%;margin-top:1px; position: absolute; display:block">
+							<h:inputText value="#{drivingbean.selectedviewTo}" id="from2"
+								style="width:29px" disabled="true">
+								<f:ajax listener="#{drivingbean.fromDisplay()}" />
+							</h:inputText>
+							<!-- <h:inputText value="#{drivingbean.iNumberOfSourceCrew}">
+                                <f:ajax event="change" listener="#{drivingbean.calToInputBox}" render="three"/>
+                            </h:inputText> -->
+							<h:outputLabel value="Crew" />
+							<!-- <h:outputLabel value="Number of" />-->
+							<!-- <h:inputText value="#{drivingbean.selectedviewFrom}" id="to2"
+                                style="width:29px" disabled="true">
+                                <f:ajax listener="#{drivingbean.toDisplay()}" />
+                            </h:inputText>
+                             -->
+							<!-- <h:outputLabel value="Crew" />
+                            <h:inputText value="#{drivingbean.iNumberOfDestinationCrew}" id="three" />  -->
+						</h:panelGrid>
+
+						<section class="indent-2"
+							style="padding-left:10px;margin-left: -52%; margin-top:-16%;">
+						<section>
+						<div>
+							<p:dataTable value="#{drivingbean.listTrainNumbersFinalTo1}"
+								var="key" style="width:20%;">
+								<p:column headerText="Train No">
+                                        #{key}
+                                    </p:column>
+
+
+							</p:dataTable>
+						</div>
+						</section> <section> <p:dataTable
+							value="#{drivingbean.listTrainNumbersFinalFirst1}" var="key"
+							style="width:20%; margin-left: -40px;">
+							<p:column headerText="Train No">
+                                        #{key}
+                                    </p:column>
+
+
+						</p:dataTable> </section> </section>
+
+					</h:form>
+				</p:dialog>
+				<p:dialog widgetVar="calc" id="calid"
+					header="Number of Crew Exceeds" modal="true">
+					<h:form>
+						<p>Number Of Source Crew Exceeds</p>
+
+
+						<p:commandButton value="Ok" action="#{drivingbean.show()}"
+							onclick="PF('acceptWdgt').hide();"
+							oncomplete="PF('calc').hide();" />
+					</h:form>
+				</p:dialog>
+				
+				
+				<p:dialog widgetVar="errorRRWdgt" header="Status" modal="true">
+				<h:form id="error1">
+				<h3>Please Enter Sequence Number</h3>
+				<p:commandButton value="Close" oncomplete="PF('errorRRWdgt').hide();">
+				
+				</p:commandButton>
+				
+				</h:form>
+				</p:dialog>
+				
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

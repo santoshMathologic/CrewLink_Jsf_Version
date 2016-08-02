@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 1, 2015 12:17:14 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.CrewChangeDrivingsection" table="crew_change_drivingsection">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="customer" class="com.crew.model.Customer" fetch="select">
+            <column name="Cutomer_table_fk" />
+        </many-to-one>
+        <property name="trainNo" type="string">
+            <column name="train_no" length="10" />
+        </property>
+        <property name="fromStation" type="string">
+            <column name="from_Station" length="10" />
+        </property>
+        <property name="toStation" type="string">
+            <column name="To_station" length="10" />
+        </property>
+        <property name="crewBase" type="string">
+            <column name="Crew_Base" length="10" />
+        </property>
+        <property name="crewType" type="string">
+            <column name="CrewType" length="10" />
+        </property>
+        <property name="kilometer" type="java.lang.Long">
+            <column name="kilometer" />
+        </property>
+        <property name="hour" type="string">
+            <column name="hour" length="10" />
+        </property>
+        <property name="departure" type="timestamp">
+            <column name="departure" length="0" />
+        </property>
+        <property name="arrival" type="timestamp">
+            <column name="arrival" length="0" />
+        </property>
+        <property name="status" type="java.lang.Boolean">
+            <column name="status" />
+        </property>
+        <property name="sequenceId" type="string">
+            <column name="sequence_id" length="20" />
+        </property>
+        <property name="transactionNoDsToDd" type="java.lang.Long">
+            <column name="transaction_No_DS_TO_DD" />
+        </property>
+        <property name="transactionId" type="string">
+            <column name="transaction_id" length="15" />
+        </property>
+        <property name="crewLinkSequence" type="java.lang.Long">
+            <column name="crew_link_sequence" />
+        </property>
+        <property name="roundTripSequenceNo" type="java.lang.Long">
+            <column name="roundTrip_SequenceNo" />
+        </property>
+        <property name="periodicRest" type="java.lang.Boolean">
+            <column name="periodic_rest" />
+        </property>
+    </class>
+</hibernate-mapping>

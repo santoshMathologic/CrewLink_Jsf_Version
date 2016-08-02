@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 27, 2015 2:07:49 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.DrivingDutyOfPilotDrivingSection" table="driving_duty_of_pilot_driving_section">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="customer" class="com.crew.model.Customer" fetch="select">
+            <column name="customer_table_fk" />
+        </many-to-one>
+        <property name="trainNo" type="string">
+            <column name="train_no" length="400" />
+        </property>
+        <property name="fromStation" type="string">
+            <column name="from_station" length="10" />
+        </property>
+        <property name="toStation" type="string">
+            <column name="to_station" length="10" />
+        </property>
+        <property name="departure" type="timestamp">
+            <column name="departure" length="0" />
+        </property>
+        <property name="arrival" type="timestamp">
+            <column name="arrival" length="0" />
+        </property>
+        <property name="km" type="java.lang.Long">
+            <column name="km" />
+        </property>
+        <property name="signonTime" type="timestamp">
+            <column name="signon_time" length="0" />
+        </property>
+        <property name="signoffTime" type="timestamp">
+            <column name="signoff_time" length="0" />
+        </property>
+        <property name="dutyHours" type="java.lang.Long">
+            <column name="duty_hours" />
+        </property>
+        <property name="availability" type="string">
+            <column name="availability" length="20" />
+        </property>
+        <property name="driverId" type="string">
+            <column name="driver_id" length="4" unique="true" />
+        </property>
+        <property name="totalDutyHours" type="string">
+            <column name="total_duty_hours" length="10" />
+        </property>
+        <property name="deletedId1" type="string">
+            <column name="deleted_id1" length="10" />
+        </property>
+        <property name="deletedId2" type="string">
+            <column name="deleted_id2" length="10" />
+        </property>
+        <property name="crewBase" type="string">
+            <column name="crew_base" length="10" />
+        </property>
+        <property name="crewType" type="string">
+            <column name="crew_type" length="10" />
+        </property>
+        <property name="transactionNoDsToDd" type="java.lang.Long">
+            <column name="transaction_No_DS_TO_DD" />
+        </property>
+        <property name="transactionNoDdToRt" type="java.lang.Long">
+            <column name="transaction_No_DD_TO_RT" />
+        </property>
+        <property name="serialNoRt" type="java.lang.Long">
+            <column name="Serial_No_RT" />
+        </property>
+        <property name="status" type="java.lang.Boolean">
+            <column name="status" />
+        </property>
+        <property name="hqRest" type="string">
+            <column name="hq_rest" length="20" />
+        </property>
+        <property name="osRest" type="string">
+            <column name="os_rest" length="20" />
+        </property>
+        <property name="sequenceId" type="java.lang.Long">
+            <column name="sequence_id" />
+        </property>
+        <property name="pilotSequenceId" type="java.lang.Long">
+            <column name="Pilot_sequence_id" />
+        </property>
+    </class>
+</hibernate-mapping>

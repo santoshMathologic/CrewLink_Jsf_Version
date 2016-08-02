@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:p="http://primefaces.org/ui"
+       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+       
+       
+       
+  <h:head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Mathologic Technologies Pvt Limited</title>
+    <link rel="stylesheet" href="csslogin/reset.css"/>
+    <link rel="stylesheet" href="csslogin/style.css"/>
+    
+    <link rel='stylesheet prefetch' href='http://daneden.github.io/animate.css/animate.min.css'/>
+    <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Roboto:400,100,400italic,700italic,700'/>
+    <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'/>
+    <link rel="shortcut icon" href="images/favicon-32x32.png" type="image/x-icon"/>
+    <link href="datepicker/jquery.datepick.css" rel="stylesheet"/>
+
+ 
+ 
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+ <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+ <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="datepicker/jquery.plugin.js"></script>
+<script src="datepicker/jquery.datepick.js"></script>
+<script type="text/javascript">
+$(function() {
+    $(".popupDatepicker").datepick();
+    
+});
+</script>
+
+<script type="text/javascript">
+ function slideonlyone() 
+ {$('#myModal').modal('show'); 
+ }
+ </script>
+ 
+ <style>
+ .selectmenu {
+   background:transparent;
+    width: 380px;
+    padding: 2px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:11px;
+    font-weight:600;
+    color:#fff;
+    line-height: 1;
+    border: 0;
+    border-radius: 0;
+    height: 44px;
+    -webkit-appearance: none;
+}
+
+.select-div{
+width: 380px;
+height: 22px;
+overflow: hidden;
+background: url(arrowhead.png) no-repeat right #363636;
+border-top:#575757 1px solid;
+-webkit-border-radius: 4px 4px 4px 4px;
+ -moz-border-radius: 4px 4px 4px 4px;
+      border-radius: 4px 4px 4px 4px;
+-webkit-box-shadow: inset 0 2px 4px rgba(107, 105, 105, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+ -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+      -moz-box-shadow:    0px 8px 3px -9px #000000;
+      -webkit-box-shadow: 0px 8px 3px -9px #000000;
+      box-shadow:         0px 8px 3px -9px #000000;
+   }
+ </style>
+ 
+ <style>
+.asterisk_input:after {
+content:" *"; 
+color: #e32;
+position: absolute; 
+margin: 2px 4px 0px -209px; 
+font-size: xx-large; 
+padding: 0 5px 0 0; }
+   
+</style>
+ 
+     
+  </h:head>
+
+  <h:body>
+    
+<div class='form aniamted bounceIn'>
+  <div class='register'>
+    <h2>Create An Account</h2>
+    <h:form id="mainform">
+    <p:growl id="mainGrowl"/>
+    
+     <span class="asterisk_input"/>
+     <h:inputText a:placeholder="First Name" value="#{customerbean.addcustomer.firstname}" required="true" requiredMessage="Enter Your First Name" id="FirstName"/>
+              
+    
+     
+     <h:inputText a:placeholder="Middle Name" value="#{customerbean.addcustomer.middlename}" id="MiddleName"  style="width:120px"/>
+     <span class="asterisk_input"/>
+     <h:inputText a:placeholder="Last Name" value="#{customerbean.addcustomer.lastname}" id="LastName" required="true" requiredMessage="Enter Your Last Name" />
+     
+     
+ 
+    <span class="asterisk_input"/>
+     <h:inputText a:placeholder="Username" value="#{customerbean.username}" id="PersonName" title="This Field is Required" required="true" requiredMessage="Enter Your User Name"/>
+     
+ 
+    
+ <!--    <h:inputSecret  a:placeholder="Password" value="#{customerbean.addcustomer.password}" id="password">
+      <f:ajax event="blur" render="mainGrowl" />
+    </h:inputSecret>
+    
+    
+    <h:inputSecret a:placeholder="Confirm Password" validator="#{customerbean.validateSamePassword}" id="password2">
+    <f:ajax event="blur" render="mainGrowl" />
+    </h:inputSecret>
+     -->
+    <span class="asterisk_input"/>
+    <h:inputTextarea a:placeholder="Address" styleClass="inputtext" id="address" value="#{customerbean.address}" cols="32" rows="5" required="true" requiredMessage="Enter Your Address" />
+    
+    <br/>
+    <br/>
+   <span class="asterisk_input"/>
+   <div class="select-div">
+     <h:selectOneMenu value="#{customerbean.selectedZones}" id="zones" styleClass="selectmenu" required="true" requiredMessage="Please select specific Zones">
+      <f:selectItem  itemLabel="--select Zones-------" itemValue=""/>
+      <f:selectItems value="#{customerbean.listofZones.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+      </h:selectOneMenu>
+      </div>
+      
+    
+    <br/>
+     
+   <span class="asterisk_input"/>  
+      <div class="select-div">
+      <h:selectOneMenu value="#{customerbean.selectedCity}" id="city" styleClass="selectmenu" required="true" requiredMessage="Please select City">
+      <f:selectItem  itemLabel="--select City-------" itemValue=""/>
+      <f:selectItems value="#{customerbean.citylist.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+      </h:selectOneMenu>
+     </div> 
+       <br/>
+      
+    <span class="asterisk_input"/>
+     <div class="select-div">
+     <h:selectOneMenu value="#{customerbean.selectedStates}" id="states" styleClass="selectmenu" required="true" requiredMessage="Please select States">
+      <f:selectItem  itemLabel="--select States-------" itemValue=""/>
+      <f:selectItems value="#{customerbean.stateslist.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+      </h:selectOneMenu>
+      </div>
+      <br/>
+      <span class="asterisk_input"/>
+        <h:inputText a:placeholder="PhoneNo"  id="phoneNo" value="#{customerbean.phoneNo}"  required="true" requiredMessage="Enter Your Phone No"/>
+        <br/>
+        <span class="asterisk_input"/>
+        <h:inputText a:placeholder="Email Address" value="#{customerbean.emailAddress}" required="true" requiredMessage="Enter Your valid Email">
+        <p:ajax listener="#{customerbean.IsEmailExists}" event="change" update="mainGrowl createId"/>
+        <f:validator validatorId="emailValidator" />
+        </h:inputText> 
+        <br/>
+        <span class="asterisk_input"/>
+        <h:inputText a:placeholder="Birth Date (mm/dd/yy)" styleClass="popupDatepicker"  value="#{customerbean.dateofBirth}"></h:inputText> 
+    
+      
+        
+      
+    <!--   <p:commandButton  value="Create" styleClass="loginbutton" data-target="#myModal" action="#{customerbean.addCustomerInDB}"/>
+      -->
+    <p:commandButton  value="Create" styleClass="loginbutton" id="createId" onclick="slideonlyone();" disabled="#{!customerbean.disabled}" action="#{customerbean.addCustomerInDB}"/>
+    
+    <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Registration Successfully</h4>
+        </div>
+        <div class="modal-body">
+          <p>Your username and Password has been send to your respective mail Account Please check!</p>
+        </div>
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+          <!-- <button class="btn btn-default" onclick="javascript:window.location.href=\'login.xhtml\';">Redirect</button> -->
+          <h:commandLink styleClass="btn btn-default" action="login.xhtml?faces-redirect=true;" value="Redirect"/>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+
+    
+
+   
+    </h:form>
+  </div>
+</div>
+</h:body>
+</html>

@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 9, 2015 4:05:33 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.Customer" table="customer">
+        <id name="id" type="java.lang.Long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="firstname" type="string">
+            <column name="firstname" length="50" />
+        </property>
+        <property name="middlename" type="string">
+            <column name="middlename" length="50" />
+        </property>
+        <property name="lastname" type="string">
+            <column name="lastname" length="50" />
+        </property>
+        <property name="username" type="string">
+            <column name="username" length="20" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="20" />
+        </property>
+        <property name="emailAddress" type="string">
+            <column name="EmailAddress" length="40" />
+        </property>
+        <property name="dob" type="string">
+            <column name="dob" length="20" />
+        </property>
+        <property name="userRole" type="string">
+            <column name="user_role" length="20" />
+        </property>
+        <property name="city" type="string">
+            <column name="city" length="20" />
+        </property>
+        <property name="states" type="string">
+            <column name="states" length="20" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" length="500" />
+        </property>
+        <property name="zones" type="string">
+            <column name="zones" length="500" />
+        </property>
+        <property name="account" type="java.lang.Boolean">
+            <column name="account" />
+        </property>
+        <set name="crewLinks" table="crew_link" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="customer_table_fk" />
+            </key>
+            <one-to-many class="com.crew.model.CrewLink" />
+        </set>
+        <set name="crewChangeDrivingsections" table="crew_change_drivingsection" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="Cutomer_table_fk" />
+            </key>
+            <one-to-many class="com.crew.model.CrewChangeDrivingsection" />
+        </set>
+        <set name="pilotJourneys" table="pilot_journey" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="customer_table_fk" />
+            </key>
+            <one-to-many class="com.crew.model.PilotJourney" />
+        </set>
+        <set name="roundTrips" table="round_trip" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="customer_table_fk" />
+            </key>
+            <one-to-many class="com.crew.model.RoundTrip" />
+        </set>
+        <set name="drivingDutyOfPilotDrivingSections" table="driving_duty_of_pilot_driving_section" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="customer_table_fk" />
+            </key>
+            <one-to-many class="com.crew.model.DrivingDutyOfPilotDrivingSection" />
+        </set>
+        <set name="drivingDutyOfPilotDrivingSections_1" table="driving_duty_of_pilot_driving_section" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="customer_table_fk" />
+            </key>
+            <one-to-many class="com.crew.model.DrivingDutyOfPilotDrivingSection" />
+        </set>
+        <set name="crewChangeDrivingsections_1" table="crew_change_drivingsection" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="Cutomer_table_fk" />
+            </key>
+            <one-to-many class="com.crew.model.CrewChangeDrivingsection" />
+        </set>
+        <set name="pilotJourneys_1" table="pilot_journey" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="customer_table_fk" />
+            </key>
+            <one-to-many class="com.crew.model.PilotJourney" />
+        </set>
+        <set name="roundTrips_1" table="round_trip" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="customer_table_fk" />
+            </key>
+            <one-to-many class="com.crew.model.RoundTrip" />
+        </set>
+    </class>
+</hibernate-mapping>

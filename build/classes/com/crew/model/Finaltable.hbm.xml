@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 19, 2015 12:49:19 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.crew.model.Finaltable" table="finaltable">
+        <id name="slno" type="java.lang.Long">
+            <column name="slno" />
+            <generator class="identity" />
+        </id>
+        <property name="trainno1" type="string">
+            <column name="trainno1" length="10" />
+        </property>
+        <property name="trainno2" type="string">
+            <column name="trainno2" length="10" />
+        </property>
+        <property name="differecnce" type="java.lang.Long">
+            <column name="differecnce" />
+        </property>
+        <property name="startingStation" type="string">
+            <column name="starting_station" length="10" />
+        </property>
+        <property name="destStation" type="string">
+            <column name="dest_station" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

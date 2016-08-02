@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="adminTemplate.xhtml">
+
+	<ui:define name="body">
+	
+	<style type="text/css">
+    .ui-widget {
+        font-size:13px;
+                }
+      </style>
+		<div class="container">
+			<div class="content" style="height: 1024px">
+				<h:form id="viewform4">
+					<p:growl id="viewGrowl" />
+                        <h1><u>Analyse of Round Trips</u></h1>
+					
+					
+					
+					<p:commandButton value="Search" action="#{rrtocrewlink.roundTripMultipleSearch}" update="driDutyId viewform4" />
+                    <p:commandButton value="Refresh" action="viewrr.xhtml?faces-redirect=true" />
+					<p:commandButton value="Delete" action="#{rrtocrewlink.deleteMultipleSelection()}" icon="ui-icon-trash" title="Delete" />
+			    
+		
+					
+					<p:dataTable id="driDutyId"
+					value="#{rrtocrewlink.roundTripList}" var="rowvar"
+					paginatorAlwaysVisible="false" rows="20" paginator="true"
+					paginatorPosition="top"  rowKey="#{rowvar.id}"
+					selection="#{rrtocrewlink.selectionList}"
+					filteredValue="#{drivingbean.filteredCrewChangeList5}"
+					style="width:auto"	 
+					>
+					<p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+					
+					<p:column headerText="Train No" style="width:300px;" >
+						#{rowvar.trainNo}
+					</p:column>
+
+	
+					<p:column headerText="From" width="8%">
+                
+                    <f:facet name="header">
+                    From
+                    
+                    
+                         <p:selectOneMenu value="#{rrtocrewlink.roundTripFrom}"  
+                         id="from"
+                         effect="fade" 
+                         var="selectvar" 
+                         style="width:80px" 
+                         filter="true" 
+                         filterMatchMode="startsWith">
+                           <f:selectItem itemLabel="Select One" itemValue="" />
+                             <f:selectItems value="#{rrtocrewlink.roundtripSelectItemFrom}" var="fromvar" 
+                                            itemLabel="#{fromvar.label}" itemValue="#{fromvar.value}" />
+                                  
+                             <p:ajax event="change" update="@this"/> 
+                             </p:selectOneMenu>
+                             
+                             
+                         <p:selectOneMenu value="#{rrtocrewlink.roundTripFrom1}"  
+                         id="from1"
+                         effect="fade" 
+                         var="selectvar" 
+                         style="width:80px" 
+                         filter="true" 
+                         filterMatchMode="startsWith">
+                           <f:selectItem itemLabel="Select One" itemValue="" />
+                             <f:selectItems value="#{rrtocrewlink.roundtripSelectItemFrom}" var="fromvar" 
+                                            itemLabel="#{fromvar.label}" itemValue="#{fromvar.value}" />
+                                  
+                             <p:ajax event="change" update="@this"/> 
+                             </p:selectOneMenu>
+                    </f:facet>
+#{rowvar.fromStation}
+</p:column>
+
+						<p:column  headerText="To" width="8%">
+                    
+                    <f:facet name="header">
+                    To
+                      <p:selectOneMenu value="#{rrtocrewlink.roundTripTo}"  
+                         id="to"
+                         effect="fade" 
+                         var="selectvar" 
+                         filter="true" 
+                         filterMatchMode="startsWith"
+                         
+                         >
+                           <f:selectItem itemLabel="Select One" itemValue="" />
+                             <f:selectItems value="#{rrtocrewlink.roundtripSelectItemTo}" var="rowTo" 
+                                            itemLabel="#{rowTo.label}" itemValue="#{rowTo.value}" />
+                                            
+                             </p:selectOneMenu>
+                             
+                             
+                        <p:selectOneMenu value="#{rrtocrewlink.roundTripTo1}"  
+                         id="to1"
+                         effect="fade" 
+                         var="selectvar" 
+                         filter="true" 
+                         filterMatchMode="startsWith"
+                         
+                         >
+                           <f:selectItem itemLabel="Select One" itemValue="" />
+                             <f:selectItems value="#{rrtocrewlink.roundtripSelectItemTo}" var="rowTo" 
+                                            itemLabel="#{rowTo.label}" itemValue="#{rowTo.value}" />
+                                            
+                             </p:selectOneMenu>
+                    </f:facet>
+                    
+#{rowvar.toStation}
+</p:column>
+
+
+					<p:column headerText="Dep" style="white-space: nowrap">
+							<p:outputLabel value="#{rowvar.departuretime.toString().subSequence(10,16)}"></p:outputLabel>
+						</p:column>
+						<p:column headerText="Arr">
+							<p:outputLabel value="#{rowvar.arrivaltime.toString().subSequence(10,16)}"></p:outputLabel>
+						</p:column>
+						<p:column headerText="Availablity At HQ">
+							<p:outputLabel value="#{rowvar.availabilityAtHq}"></p:outputLabel>
+						</p:column>
+
+			              <p:column filterBy="#{rowvar.crewBase}"  headerText="CrewBase" filterStyle="width:40px;border-radius:0px" filterFunction="#{rrtocrewlink.filterByName}">
+						<h:outputText value="#{rowvar.crewBase}" />
+					</p:column>
+
+					<p:column filterBy="#{rowvar.crewType}" headerText="CrewType"
+						filterStyle="width:40px;border-radius:0px" filterFunction="#{rrtocrewlink.filterByName}">
+						<h:outputText value="#{rowvar.crewType}" />
+					</p:column>
+			<p:column headerText="Number of Hours">
+							<p:outputLabel value="#{rowvar.noOfDays}"></p:outputLabel>
+						</p:column>
+<!-- 						<p:column headerText="AvailablityTime">
+							<p:outputLabel value="#{rowvar.availability}"></p:outputLabel>
+						</p:column>
+ -->
+						<p:column headerText="Distance">
+#{rowvar.distance}
+</p:column>
+
+
+
+
+<!-- <p:column headerText="Total Duty Hours">
+#{rowvar.totalDutyHours}
+</p:column>
+			 -->		 <p:column headerText="option" style="width:80px;" >
+					 <p:commandButton actionListener="#{drivingdutytoroundtrip.viewRoundTrip(rowvar)}" update=":viewform4 :roundTripId" oncomplete="PF('rrInfo').show()" icon="ui-icon-search" title="View">
+                			<f:setPropertyActionListener value="#{rowvar}" target="#{drivingdutytoroundtrip.selectedRoundTrip}" />
+           		     </p:commandButton>
+           		     
+					<p:commandButton actionListener="#{rrtocrewlink.deleteMultipleSelection()}" update=":viewform4:driDutyId" onclick="if (!confirm('Are you sure?')) return false"
+					process="@this" icon="ui-icon-trash" title="Delete">
+           		     </p:commandButton>
+</p:column>
+					
+					</p:dataTable>
+
+	
+
+
+				</h:form>
+				   <p:dialog  widgetVar="deleteDriWdgt" header="Deleted Successfully" modal="true">
+			    		<p:commandButton value="Ok" action="viewrr.xhtml?faces-redirect=true"> </p:commandButton>
+			    </p:dialog>
+				<p:dialog header="DRIVING DUTY IS DELETED" widgetVar="deletedWdg" modal="true">
+						<p:commandButton value="OK" action="viewrr.xhtml?faces-redirect=true"> </p:commandButton>
+					</p:dialog>
+				 <p:dialog  widgetVar="rrInfo" header="Round Trip Information" modal="true" resizable="false">
+			    	
+			        <p:dataTable  id="roundTripId"
+					value="#{drivingdutytoroundtrip.dutyDrivingList}" var="rowvar"
+					paginatorAlwaysVisible="false" rows="20" paginator="true"
+					paginatorPosition="top" 
+					tableStyle="width:auto"
+					resizableColumns="true" 
+					emptyMessage="No data found with given criteria" 
+					lazy="true">
+			    		
+			    		
+			    		<p:column headerText="Train No" style="width:150px;" >
+                             <h:outputText value="#{rowvar.trainNo}"/>
+                        </p:column>
+
+	
+						<p:column filterBy="#{rowvar.fromStation}" headerText="From" >
+						<h:outputText value="#{rowvar.fromStation}" />
+                        </p:column>
+
+
+						<p:column filterBy="#{rowvar.toStation}" headerText="To">
+                                    <h:outputText value="#{rowvar.toStation}" />
+                        </p:column>
+
+
+
+			         <p:column headerText="Departure">
+                         <h:outputText value="#{rowvar.departure.toString().substring(10,16)}"/>
+                      </p:column>
+						<p:column headerText="Arrival">
+                               <h:outputText value="#{rowvar.arrival.toString().substring(10,16)}"/>
+                           </p:column>
+			              <p:column filterBy="#{rowvar.crewBase}"  headerText="CrewBase" filterStyleClass="filtersheets">
+						<h:outputText value="#{rowvar.crewBase}" />
+					</p:column>
+
+					<p:column filterBy="#{rowvar.crewType}" headerText="CrewType"
+						filterStyleClass="filtersheets">
+						<h:outputText value="#{rowvar.crewType}" />
+					</p:column>
+			
+						<p:column headerText="SignOn">
+							<p:outputLabel value="#{rowvar.signonTime.toString().substring(10,16)}"></p:outputLabel>
+						</p:column>
+
+						<p:column headerText="SignOff">
+							<p:outputLabel value="#{rowvar.signoffTime.toString().substring(10,16)}"></p:outputLabel>
+						</p:column>
+
+
+
+						<!-- <p:column headerText="Duty Hour">
+							<p:outputLabel value="#{rowvar.dutyHours}"></p:outputLabel>
+						</p:column> -->
+
+						<p:column headerText="AvailablityTime">
+							<p:outputLabel value="#{rowvar.availability}"></p:outputLabel>
+						</p:column>
+
+
+						<p:column headerText="Distance">
+                        #{rowvar.km}
+                        </p:column>
+			    		
+			    		
+			    		
+			    		
+			    		</p:dataTable>
+			    	
+			    </p:dialog>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

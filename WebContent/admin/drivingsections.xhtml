@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="adminTemplate.xhtml">
+
+
+
+	<ui:define name="body">
+
+		<div class="container">
+			<div class="content" style="height: 1024px">
+				<h:form id="viewform">
+			    <p:growl id="viewGrowl" />
+				<h1><u>Analyze Driving Section</u></h1>
+				<p:commandButton value="show" action="#{drivingbean.filteredManipulation}" oncomplete="PF('showInfoDlg').show();"/>
+				<p:commandButton value="Search" action="#{drivingbean.multipleSearch}" update="driSectionId viewGrowl" />
+				<!-- <p:commandButton value="Refresh" action="drivingsections.xhtml?faces-redirect=true" /> -->
+
+				
+				<p:dataTable id="driSectionId"
+					value="#{drivingbean.loadCrewChangeList}" var="rowvar"
+					paginatorAlwaysVisible="false" rows="20" paginator="true"
+					paginatorPosition="top" widgetVar="crewTable"
+					filteredValue="#{drivingbean.filteredCrewChangeList5}"
+					style="text-align:center;" >
+            
+            <!-- <f:facet name="header">
+            <p:outputPanel style="margin-left:800px">
+                <h:outputText value="Search all fields:" />
+                <p:inputText id="globalFilter" onkeyup="PF('crewTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+            </p:outputPanel>
+        </f:facet> -->
+					<p:column headerText="Train No" filterBy="#{rowvar.trainNo}" filterStyle="display:none">
+						#{rowvar.trainNo}
+				 </p:column>
+
+				
+					<p:column headerText="From">
+				
+					<f:facet name="header">
+					From
+					
+					
+					     <p:selectOneMenu value="#{drivingbean.selectedFrom}"  
+					     id="from"
+					     effect="fade" 
+					     var="selectvar" 
+					     style="width:100px" 
+					     filter="true" 
+					     filterMatchMode="startsWith">
+					       <f:selectItem itemLabel="Select One" itemValue="" />
+                             <f:selectItems value="#{drivingbean.selectlistfrom_station}" var="car" 
+                                            itemLabel="#{car.label}" itemValue="#{car.value}" />
+                                  
+                             <p:ajax event="change" update="@this"/> 
+                             </p:selectOneMenu>
+                             
+                             
+                         <p:selectOneMenu value="#{drivingbean.selectedFrom1}"  
+                         effect="fade" 
+                         var="selectvar" 
+                         style="width:100px" 
+                         filter="true" 
+                         filterMatchMode="startsWith">
+                           <f:selectItem itemLabel="Select One" itemValue="" />
+                             <f:selectItems value="#{drivingbean.selectlistfrom_station}" var="car" 
+                                            itemLabel="#{car.label}" itemValue="#{car.value}" />
+                                            
+                                
+                             </p:selectOneMenu>  
+                 	</f:facet>
+#{rowvar.fromStation}
+</p:column>
+
+				<p:column  headerText="To">
+					
+					<f:facet name="header">
+                    To
+                      <p:selectOneMenu value="#{drivingbean.selectedTo}"  
+                         effect="fade" 
+                         var="selectvar" 
+                         
+                         filter="true" 
+                         filterMatchMode="startsWith"
+                         
+                         >
+                           <f:selectItem itemLabel="Select One" itemValue="" />
+                             <f:selectItems value="#{drivingbean.to_stationlist}" var="car" 
+                                            itemLabel="#{car.label}" itemValue="#{car.value}" />
+                                            
+                             </p:selectOneMenu>
+                             
+                             
+                         <p:selectOneMenu value="#{drivingbean.selectedTo1}"  
+                         effect="fade" 
+                         var="selectvar" 
+                         
+                         filter="true" 
+                         filterMatchMode="startsWith">
+                           <f:selectItem itemLabel="Select One" itemValue="" />
+                             <f:selectItems value="#{drivingbean.to_stationlist}" var="car" 
+                                            itemLabel="#{car.label}" itemValue="#{car.value}" />
+                                            
+                              
+                               
+                             </p:selectOneMenu>
+                    </f:facet>
+					
+#{rowvar.toStation}
+</p:column>
+
+<p:column headerText="Departure">
+#{rowvar.departure.toString().substring(10,16)}
+</p:column>
+<p:column headerText="Arrival">
+#{rowvar.arrival.toString().substring(10,16)}
+</p:column>
+		<p:column headerText="Distance">
+#{rowvar.kilometer}
+</p:column>
+
+<p:column headerText="Hours">
+#{rowvar.hour}
+</p:column>
+
+<p:column headerText="Status">
+<f:facet name="header">
+Status
+<p:selectOneMenu value="#{drivingbean.selectedStatus}" style="width:100px">
+<f:selectItem itemValue="" itemLabel="-----select------"/>
+<f:selectItem itemValue="All" itemLabel="All"/>
+<f:selectItem itemValue="DutyCreated" itemLabel="Duty Created"/>
+<f:selectItem itemValue="DutyNotCreated" itemLabel="Duty Not Created"/>
+<p:ajax listener="#{drivingbean.dutyStatusSearch}" update=":viewform:driSectionId" />
+</p:selectOneMenu>
+</f:facet>
+<p:outputLabel value="#{rowvar.status=='true'? 'Duty Created' : 'Duty Not created'}" style="color: green;font-weight:bold"/>
+</p:column>
+
+					<p:column filterBy="#{rowvar.crewBase}"  headerText="CrewBase" filterFunction="#{drivingbean.filterByCrewBaseAndType}" filterStyle="width:70px;border-radius:0px">
+						<h:outputText value="#{rowvar.crewBase}" />
+					</p:column>
+
+					<p:column filterBy="#{rowvar.crewType}" headerText="CrewType"
+						filterStyle="width:70px;border-radius:0px" filterFunction="#{drivingbean.filterByCrewBaseAndType}">
+						<h:outputText value="#{rowvar.crewType}" />
+					</p:column>
+
+
+
+
+				</p:dataTable>
+
+			
+
+</h:form>
+
+<p:dialog widgetVar="showInfoDlg" header="KM and HOURS Info" modal="true" resizable="false">
+
+<h:form id="showForm">
+<p:panelGrid columns="2">
+
+<h:outputLabel value="Total Number of Hours" />
+<h:outputLabel value="#{drivingbean.totalFilteredHourAndMinutes}" />
+
+<h:outputLabel value="Total KM" />
+<h:outputLabel value="#{drivingbean.totalfilteredDistance}" />
+
+<h:outputLabel value="Total Number of Driving Sections" />
+<h:outputLabel value="#{drivingbean.totalFilteredValues}" />
+
+
+<h:outputLabel value="Smallest Driving Section" />
+<h:outputLabel value="#{drivingbean.strCombineHourAndMinute}" />
+
+<h:outputLabel value="Average Hour in Driving Section" />
+<h:outputLabel value="#{drivingbean.avgDrivingSection}" />
+
+</p:panelGrid>
+
+</h:form>
+
+</p:dialog>
+
+
+
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
